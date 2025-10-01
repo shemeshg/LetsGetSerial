@@ -5,6 +5,7 @@ import QtQuick.Controls
 Button {
     id: btn
     property string hooverText: ""
+    property bool isAnimation: true
 
     CoreToolTip {
         id: toolTip
@@ -23,9 +24,11 @@ Button {
         }
     }
 
+    icon.width: CoreSystemPalette.font.pixelSize
+    icon.height: CoreSystemPalette.font.pixelSize
 
 
-    palette.alternateBase: CoreSystemPalette.alternateBase 
+    palette.alternateBase: CoreSystemPalette.alternateBase
     palette.base: CoreSystemPalette.base
     palette.button: CoreSystemPalette.button
     palette.buttonText: CoreSystemPalette.buttonText
@@ -40,6 +43,70 @@ Button {
     palette.text: CoreSystemPalette.text
     palette.window: CoreSystemPalette.window
     palette.windowText: CoreSystemPalette.windowText
+    icon.color: CoreSystemPalette.buttonText
 
     font: CoreSystemPalette.font
+
+    onReleased: {
+        if (isAnimation) {
+            colorAnimation.start()
+        }
+
+
+    }
+
+
+
+    PropertyAnimation {
+          id: colorAnimation
+          target: btn
+          property: "palette.buttonText"
+          from: CoreSystemPalette.buttonText
+          to: CoreSystemPalette.midlight
+          duration: 100
+          easing.type: Easing.InOutQuad
+          onStopped: {
+              revertColorAnimation.start();
+              colorAnimationIcon.start();
+          }
+
+      }
+
+      PropertyAnimation {
+          id: revertColorAnimation
+          target: btn
+          property: "palette.buttonText"
+          from: CoreSystemPalette.midlight
+          to: CoreSystemPalette.buttonText
+          duration: 100
+          easing.type: Easing.InOutQuad
+          running: false // To prevent it from running initially
+      }
+
+
+      PropertyAnimation {
+            id: colorAnimationIcon
+            target: btn
+            property: "icon.color"
+            from: CoreSystemPalette.buttonText
+            to: CoreSystemPalette.midlight
+            duration: 100
+            easing.type: Easing.InOutQuad
+            onStopped: {
+                revertColorAnimationIcon.start();
+            }
+
+        }
+
+        PropertyAnimation {
+            id: revertColorAnimationIcon
+            target: btn
+            property: "icon.color"
+            from: CoreSystemPalette.midlight
+            to: CoreSystemPalette.buttonText
+            duration: 100
+            easing.type: Easing.InOutQuad
+            running: false // To prevent it from running initially
+        }
+
 }
