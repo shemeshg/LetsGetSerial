@@ -4,18 +4,25 @@
 import QtQuick
 import Design
 import Core
+import QtQuick.Layouts
+import QtQuick.Controls
 
 Window {
-    width:  Constants.width
-    height: Constants.height
+    width:  400//Constants.width
+    height: 600 //Constants.height
+    
 
-    visible: true
-    title: "Design"
+
+    title: "Lets get serial"
     color: CoreSystemPalette.window
+    
+
+
 
     Screen01 {
         id: mainScreen
     }
+
 
 }
 

@@ -8,17 +8,67 @@ Check out https://doc.qt.io/qtcreator/creator-quick-ui-forms.html for details on
 */
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 import Design
 import Core
 
-Rectangle {
-    width: parent.width //Constants.width
-    height: parent.height //Constants.height
+ColumnLayout {
+    width: parent.width
+    RowLayout {
+        CoreLabel {
+            text: qsTr("Hello Design ") + Constants.mytype.name
 
-    color: CoreSystemPalette.window
-
-    CoreLabel {
-        text: qsTr("Hello Design ") + Constants.mytype.name
-        anchors.centerIn: parent
+        }
     }
+    RowLayout {
+        CoreLabel {
+            text: "Open serial "
+        }
+        CoreTextField {
+            placeholderText: "Port name"
+            Layout.fillWidth:true
+        }
+        CoreButton {
+            text: "Connect"
+        }
+    }
+    RowLayout {
+        CoreLabel {
+            text: "Connected to serial " + "COM3"
+            Layout.fillWidth:true
+        }
+        CoreButton {
+            text: "Connect"
+        }
+    }
+    RowLayout {
+        CoreLabel {
+            text: "Error on serial " + "COM3"
+            Layout.fillWidth:true
+        }
+        CoreButton {
+            text: "Clear error"
+        }
+    }
+
+    RowLayout {
+        CoreLabel {
+            text: "Send serial input"
+        }
+        CoreTextField {
+            placeholderText: "Text to send"
+            Layout.fillWidth:true
+        }
+        CoreButton {
+            text: "Send"
+        }
+    }
+
+    CoreButton {
+        text: "Clear serial log"
+    }
+    CoreTextArea {
+        text: "Serial output"
+    }
+
 }

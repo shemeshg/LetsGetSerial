@@ -1,14 +1,6 @@
 import QtQuick
 import DesignContent
 
-Window {
-
-    width: 640
-    height: 480
+App {
     visible: true
-    title: qsTr("Hello World")
-
-    Screen01 {
-        id: mainScreen
-    }
 }
