@@ -1,5 +1,6 @@
 # import ImportScript
-from CMakeCogLib import *
+from CMakeCogLib import CMakeCog
+from GenHpp import GenHpp
 
 def getCmake():
     s = []
