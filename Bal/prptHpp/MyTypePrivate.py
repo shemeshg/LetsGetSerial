@@ -1,4 +1,5 @@
-from property import create_prpt, PrptClass
+import ImportScript
+from propertyLib import create_prpt, PrptClass
 
 
 ary = [
