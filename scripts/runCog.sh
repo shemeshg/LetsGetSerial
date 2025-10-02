@@ -11,8 +11,11 @@ else
 fi
 
 
-# cd "$script_dir/.."
-# cd Bal/RtMidiRouterLib/MidiClient/genPrpt
-# cog -r *.hpp
+cd "$script_dir/.."
+cd Bal/prptHpp
+cog -r *.hpp
 
+cd "$script_dir/.."
+cd  Bal/
+cog -r CMakeLists.txt
 

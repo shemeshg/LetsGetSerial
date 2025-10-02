@@ -7,42 +7,33 @@
 #include <qqmlregistration.h>
 //-only-file body //-
 //- #include "mytype.h"
+//- {include-header}
+#include "../prptHpp/MyTypePrivate.hpp" //- #include "../prptHpp/MyTypePrivate.h"
 
 //-only-file header
 //-var {PRE} "MyType::"mytype
-class MyType : public QObject
+class MyType : public MyTypePrivate
 {
     Q_OBJECT
-    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged FINAL)
     QML_ELEMENT
 
-signals:
-    void nameChanged();
 
 public:
     //- {function} 1 1
-    explicit MyType(QObject *parent = nullptr) 
+    explicit MyType(QObject *parent = nullptr)
     //-only-file body
-    : QObject(parent)
+    : MyTypePrivate(parent)
     {
     }
 
+    //-only-file header
+    public slots:
     //- {fn}
-    QString name() const 
-    //-only-file body
-    { 
-        return "FROM BACKEND"; 
-    };
-
-    //- {fn}
-    void setName(const QString &name)
+    QString getClinked()
     //-only-file body
     {
-        m_name = name;
-        emit nameChanged();
+        return "Clicked from backend";
     }
 
-    //-only-file header //-
-private:
-    QString m_name;
+    //-only-file header
 };
