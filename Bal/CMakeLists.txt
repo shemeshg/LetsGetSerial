@@ -28,13 +28,12 @@ if(GEN_HPP)
 endif()
 
 
-qt_add_library(Bal STATIC)
+qt_add_library(Bal STATIC         ${CMAKE_CURRENT_BINARY_DIR}/hpp/mytype.cpp
+        ${CMAKE_CURRENT_BINARY_DIR}/hpp/mytype.h)
 qt6_add_qml_module(Bal
         URI Bal
         VERSION 1.0
         SOURCES
-        ${CMAKE_CURRENT_BINARY_DIR}/hpp/mytype.cpp
-        ${CMAKE_CURRENT_BINARY_DIR}/hpp/mytype.h
          )
 
 target_include_directories(Bal PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/hpp)
