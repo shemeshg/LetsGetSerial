@@ -1,3 +1,4 @@
+
 SET(GEN_HPP TRUE)
 if(GEN_HPP)
     make_directory(${CMAKE_CURRENT_BINARY_DIR}/hpp)
@@ -26,17 +27,28 @@ if(GEN_HPP)
 
     # Continue with the rest of your CMake configuration
 endif()
+                     
+
+find_package(QT NAMES Qt6 Qt5 COMPONENTS SerialPort REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS SerialPort REQUIRED)
 
 
-qt_add_library(Bal STATIC         ${CMAKE_CURRENT_BINARY_DIR}/hpp/mytype.cpp
-        ${CMAKE_CURRENT_BINARY_DIR}/hpp/mytype.h)
+add_library(Bal STATIC
+  ${CMAKE_CURRENT_BINARY_DIR}/hpp/mytype.cpp
+${CMAKE_CURRENT_BINARY_DIR}/hpp/mytype.h
+)        
+                     
+
 qt6_add_qml_module(Bal
         URI Bal
         VERSION 1.0
         SOURCES
          )
 
-target_include_directories(Bal PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/hpp)
+
+target_include_directories(Bal PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/hpp)                     
+        
+target_link_libraries(Bal PRIVATE Qt${QT_VERSION_MAJOR}::SerialPort) 
 
 if(GEN_HPP)
   add_dependencies(Bal runScript_c7e9047dcad220c49dd24c7e1404b79292ba93d4d1bbef3bb841f56e27c53d60)
