@@ -15,9 +15,11 @@ import Core
 ColumnLayout {
     width: parent.width
     RowLayout {
-        CoreLabel {
-            text: qsTr("Hello Design ") + Constants.mytype.name
-
+        CoreButton {
+            text: "Refresh list of ports"
+            onClicked: {
+                Constants.mytype.getClinked()
+            }
         }
     }
     RowLayout {
@@ -29,7 +31,10 @@ ColumnLayout {
             Layout.fillWidth:true
         }
         CoreButton {
-            text: "Connect"
+            text: "Connect getClicked"
+            onClicked: {
+                Constants.mytype.getClinked()
+            }
         }
     }
     RowLayout {
