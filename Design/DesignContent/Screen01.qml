@@ -16,9 +16,17 @@ ColumnLayout {
     width: parent.width
     RowLayout {
         CoreButton {
-            text: "Refresh list of ports"
+            text: "Test printSerialPortss"
             onClicked: {
-                Constants.mytype.getClinked()
+                Constants.mytype.printSerialPorts()
+            }
+        }
+    }
+    RowLayout {
+        CoreButton {
+            text: "Test connect arduino"
+            onClicked: {
+                Constants.mytype.asyncConnectArduino((s)=>{console.log(s)})
             }
         }
     }

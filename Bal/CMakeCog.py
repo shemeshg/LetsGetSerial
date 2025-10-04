@@ -4,7 +4,7 @@ from Qt6AddQmlModule import Qt6AddQmlModule
 def getCmake():
     m = Qt6AddQmlModule()
     m.hppFolders = ["hpp","prptHpp"]
-    m.find_package_qt_components =["SerialPort"]    
+    m.find_package_qt_components =["SerialPort","Concurrent"]
     return m.getCmake()
 
 #print(getCmake())
