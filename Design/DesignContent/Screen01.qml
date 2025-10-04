@@ -16,7 +16,7 @@ ColumnLayout {
     width: parent.width
     RowLayout {
         CoreButton {
-            text: "Test printSerialPortss"
+            text: "printSerialPorts"
             onClicked: {
                 Constants.mytype.printSerialPorts()
             }
@@ -24,12 +24,33 @@ ColumnLayout {
     }
     RowLayout {
         CoreButton {
-            text: "Test connect arduino"
+            text: "openSerialPort"
             onClicked: {
-                Constants.mytype.asyncConnectArduino((s)=>{console.log(s)})
+                //Constants.mytype.asyncConnectArduino((s)=>{console.log(s)})
+                Constants.mytype.openSerialPort()
             }
         }
     }
+    RowLayout {
+        CoreButton {
+            text: "writeShalom"
+            onClicked: {
+                //Constants.mytype.asyncConnectArduino((s)=>{console.log(s)})
+                Constants.mytype.writeShalom()
+            }
+        }
+    }    
+    RowLayout {
+        CoreButton {
+            text: "closeSerialPort"
+            onClicked: {
+                //Constants.mytype.asyncConnectArduino((s)=>{console.log(s)})
+                Constants.mytype.closeSerialPort()
+            }
+        }
+    }  
+
+
     RowLayout {
         CoreLabel {
             text: "Open serial "
