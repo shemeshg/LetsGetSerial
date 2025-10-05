@@ -35,6 +35,7 @@
         "stdexcept": "cpp",
         "typeinfo": "cpp",
         "variant": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "qserialportinfo": "cpp"
     }
 }
