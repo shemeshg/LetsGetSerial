@@ -51,11 +51,9 @@ Button {
         if (isAnimation) {
             colorAnimation.start()
         }
-
-
     }
 
-
+    property bool isIconAnomation: true
 
     PropertyAnimation {
           id: colorAnimation
@@ -67,7 +65,9 @@ Button {
           easing.type: Easing.InOutQuad
           onStopped: {
               revertColorAnimation.start();
-              colorAnimationIcon.start();
+              if (isIconAnomation) {
+                  colorAnimationIcon.start();
+              }
           }
 
       }

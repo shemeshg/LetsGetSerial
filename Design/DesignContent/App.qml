@@ -5,7 +5,7 @@ import QtQuick
 import Design
 import Core
 import QtQuick.Layouts
-import QtQuick.Controls
+
 
 Window {
     width:  400//Constants.width

@@ -14,6 +14,104 @@ import Core
 
 ColumnLayout {
     width: parent.width
+    height: parent.height
+    GroupBox {
+        Layout.margins:  CoreSystemPalette.font.pixelSize
+        Layout.fillWidth: true
+        RowLayout {
+             anchors.left: parent.left
+             anchors.right: parent.right
+            CoreButton {
+                onClicked: {
+                    console.log("clicked")
+                }
+                icon.name: "Connect"
+                icon.source: Qt.resolvedUrl(
+                                 "icons/connect.png")
+                hooverText: "Connect to serial port"
+                icon.color: undefined
+                isIconAnomation: false
+                icon.width: CoreSystemPalette.font.pixelSize * 2
+                icon.height: CoreSystemPalette.font.pixelSize * 2
+            }
+            CoreButton {
+                onClicked: {
+                    console.log("clicked")
+                }
+                icon.name: "Disconnect"
+                icon.source: Qt.resolvedUrl(
+                                 "icons/disconnect.png")
+                hooverText: "Disconnect from serial port"
+                icon.color: undefined
+                isIconAnomation: false
+                icon.width: CoreSystemPalette.font.pixelSize * 2
+                icon.height: CoreSystemPalette.font.pixelSize * 2
+            }
+            CoreButton {
+                onClicked: {
+                    console.log("clicked")
+                }
+                icon.name: "Configure"
+                icon.source: Qt.resolvedUrl(
+                                 "icons/settings.png")
+                hooverText: "Configure serial port"
+                icon.color: undefined
+                isIconAnomation: false
+                icon.width: CoreSystemPalette.font.pixelSize * 2
+                icon.height: CoreSystemPalette.font.pixelSize * 2
+            }
+            CoreButton {
+                onClicked: {
+                    console.log("clicked")
+                }
+                icon.name: "Clear"
+                icon.source: Qt.resolvedUrl(
+                                 "icons/clear.png")
+                hooverText: "Clear data"
+                icon.color: undefined
+                isIconAnomation: false
+                icon.width: CoreSystemPalette.font.pixelSize * 2
+                icon.height: CoreSystemPalette.font.pixelSize * 2
+            }
+            CoreButton {
+                onClicked: {
+                    console.log("clicked")
+                }
+                icon.name: "Quit"
+                icon.source: Qt.resolvedUrl(
+                                 "icons/application-exit.png")
+                hooverText: "Quit"
+                icon.color: undefined
+                isIconAnomation: false
+                icon.width: CoreSystemPalette.font.pixelSize * 2
+                icon.height: CoreSystemPalette.font.pixelSize * 2
+            }
+            Item {
+                Layout.fillWidth: true
+            }
+
+        }
+    }
+
+    CoreTextArea {
+        Layout.margins:  CoreSystemPalette.font.pixelSize
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        text: "the text"
+    }
+
+    GroupBox {
+        Layout.margins:  CoreSystemPalette.font.pixelSize
+        Layout.fillWidth: true
+        RowLayout {
+             anchors.left: parent.left
+             anchors.right: parent.right
+             CoreLabel {
+                 text: "status"
+             }
+        }
+    }
+    /*
     RowLayout {
         CoreButton {
             text: "printSerialPorts"
@@ -104,5 +202,6 @@ ColumnLayout {
     CoreTextArea {
         text: "Serial output"
     }
+    */
 
 }
