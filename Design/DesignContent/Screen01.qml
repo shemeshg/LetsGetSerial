@@ -121,135 +121,137 @@ ColumnLayout {
             GridLayout {
                 columns: 2
                 CoreButton {
+                    Layout.leftMargin:   CoreSystemPalette.font.pixelSize
+                    Layout.rightMargin:    CoreSystemPalette.font.pixelSize
                     Layout.columnSpan: 2
                     onClicked: {
                         loaderId.sourceComponent = terminalBodyId
                     }
                     text: "back"
                 }
+                CoreLabel {
+                    Layout.leftMargin:   CoreSystemPalette.font.pixelSize
+                    Layout.rightMargin:    CoreSystemPalette.font.pixelSize
+                    text: "Select Serial Port"
+                }
 
+                CoreLabel {
+                    text: "Select Parameters"
+                }
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignTop
 
-
-                    ColumnLayout {
-                        Layout.fillWidth: true
+                    GroupBox {
+                        id: leftGtoupboxId
                         Layout.alignment: Qt.AlignTop
+                        Layout.margins:  CoreSystemPalette.font.pixelSize
+                        Layout.fillWidth: true
                         ColumnLayout {
-                            CoreLabel {
-                                Layout.margins:  CoreSystemPalette.font.pixelSize
-                                text: "Select Serial Port"
+                            CoreComboBox {
+                                id: serialPortInfoListBox
+                                model: ["dummy1","dummy2"]
                             }
+                            CoreLabel {
+                                text: "Description:"
+                            }
+                            CoreLabel {
+                                text: "Manufacturer:"
+                            }
+                            CoreLabel {
+                                text: "Serial number:"
+                            }
+                            CoreLabel {
+                                text: "Location:"
+                            }
+                            CoreLabel {
+                                text: "Vendor ID:"
+                            }
+                            CoreLabel {
+                                text: "Product ID:"
+                            }
+
                         }
-                        GroupBox {
-                            Layout.alignment: Qt.AlignTop
-                            Layout.margins:  CoreSystemPalette.font.pixelSize
-                            Layout.fillWidth: true
-                            ColumnLayout {
+                    }
+
+                }
+
+                ColumnLayout {
+
+                    Layout.fillWidth: true
+
+                    GroupBox {
+                        Layout.fillWidth: true
+                        Layout.rightMargin:   CoreSystemPalette.font.pixelSize
+                        height: leftGtoupboxId.height
+
+                        ColumnLayout {
+                            RowLayout {
+                                CoreLabel {
+                                    text: "BaudRate"
+                                }
+
+                                CoreTextField {
+                                    text: "6600"
+                                }
+                            }
+                            RowLayout {
+                                CoreLabel {
+                                    text: "Data bits"
+                                }
+
+                                CoreTextField {
+                                    text: "8"
+                                }
+                            }
+                            RowLayout {
+                                CoreLabel {
+                                    text: "parity"
+                                }
                                 CoreComboBox {
-                                    id: serialPortInfoListBox
-                                    model: ["dummy1","dummy2"]
+                                    model: ["None","Even","Odd","Mark","Space"]
                                 }
+                            }
+                            RowLayout {
                                 CoreLabel {
-                                    text: "Description:"
+                                    text: "Stop bits"
                                 }
+                                CoreComboBox {
+                                    model: ["1","2"]
+                                }
+                            }
+                            RowLayout {
                                 CoreLabel {
-                                    text: "Manufacturer:"
+                                    text: "Flow control"
                                 }
-                                CoreLabel {
-                                    text: "Serial number:"
+                                CoreComboBox {
+                                    model: ["None","RTS/CTS","XON/XOFF"]
                                 }
-                                CoreLabel {
-                                    text: "Location:"
-                                }
-                                CoreLabel {
-                                    text: "Vendor ID:"
-                                }
-                                CoreLabel {
-                                    text: "Product ID:"
-                                }
-
                             }
                         }
-
                     }
 
-                    ColumnLayout {
-                        Layout.alignment: Qt.AlignTop
-                        Layout.fillWidth: true
-                        ColumnLayout {
-                            CoreLabel {
-                                text: "Select Parameters"
-                            }
-                        }
-                        GroupBox {
-                            Layout.fillWidth: true
-                            Layout.rightMargin:   CoreSystemPalette.font.pixelSize
-                            Layout.alignment: Qt.AlignTop
-
-                            ColumnLayout {
-                                RowLayout {
-                                    CoreLabel {
-                                        text: "BaudRate"
-                                    }
-
-                                    CoreTextField {
-                                        text: "6600"
-                                    }
-                                }
-                                RowLayout {
-                                    CoreLabel {
-                                        text: "Data bits"
-                                    }
-
-                                    CoreTextField {
-                                        text: "8"
-                                    }
-                                }
-                                RowLayout {
-                                    CoreLabel {
-                                        text: "parity"
-                                    }
-                                    CoreComboBox {
-                                        model: ["None","Even","Odd","Mark","Space"]
-                                    }
-                                }
-                                RowLayout {
-                                    CoreLabel {
-                                        text: "Stop bits"
-                                    }
-                                    CoreComboBox {
-                                        model: ["1","2"]
-                                    }
-                                }
-                                RowLayout {
-                                    CoreLabel {
-                                        text: "Flow control"
-                                    }
-                                    CoreComboBox {
-                                        model: ["None","RTS/CTS","XON/XOFF"]
-                                    }
-                                }
-                            }
-                        }
-
-                    }
+                }
 
 
                 CoreLabel {
                     Layout.columnSpan:  2
-                     Layout.margins:  CoreSystemPalette.font.pixelSize
+                    Layout.margins:  CoreSystemPalette.font.pixelSize
                     text: "Additional options"
                 }
                 GroupBox {
                     Layout.alignment: Qt.AlignTop
                     Layout.columnSpan: 2
-                     Layout.margins:  CoreSystemPalette.font.pixelSize
+                    Layout.margins:  CoreSystemPalette.font.pixelSize
                     Layout.fillWidth: true
                     CoreCheckBox {
                         text: "Local echo"
                     }
                 }
             }
-
+            Item {
+                Layout.fillHeight: true
+            }
         }
 
 
