@@ -104,7 +104,7 @@ ColumnLayout {
     }
     Component {
         id: terminalBodyId
-        ColumnLayout {
+        Column  {
 
             CoreTextArea {
                 Layout.margins:  CoreSystemPalette.font.pixelSize
@@ -117,7 +117,7 @@ ColumnLayout {
 
     Component {
         id: terminalSettingsId
-        ColumnLayout {
+        Column  {
             GridLayout {
                 columns: 2
                 CoreButton {
@@ -249,9 +249,7 @@ ColumnLayout {
                     }
                 }
             }
-            Item {
-                Layout.fillHeight: true
-            }
+
         }
 
 
