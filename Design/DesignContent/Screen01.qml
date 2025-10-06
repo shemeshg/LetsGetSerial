@@ -16,6 +16,7 @@ ColumnLayout {
     id: screenId
     width: parent.width
     height: parent.height
+    Layout.fillWidth: true
     GroupBox {
         Layout.margins:  CoreSystemPalette.font.pixelSize
         Layout.fillWidth: true
@@ -104,6 +105,7 @@ ColumnLayout {
     Component {
         id: terminalBodyId
         ColumnLayout {
+
             CoreTextArea {
                 Layout.margins:  CoreSystemPalette.font.pixelSize
                 Layout.fillWidth: true
@@ -116,17 +118,138 @@ ColumnLayout {
     Component {
         id: terminalSettingsId
         ColumnLayout {
-
-            CoreButton {
-                Layout.margins:  CoreSystemPalette.font.pixelSize
-                onClicked: {
-                    loaderId.sourceComponent = terminalBodyId
+            GridLayout {
+                columns: 2
+                CoreButton {
+                    Layout.columnSpan: 2
+                    onClicked: {
+                        loaderId.sourceComponent = terminalBodyId
+                    }
+                    text: "back"
                 }
-                text: "back"
+
+
+
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        Layout.alignment: Qt.AlignTop
+                        ColumnLayout {
+                            CoreLabel {
+                                Layout.margins:  CoreSystemPalette.font.pixelSize
+                                text: "Select Serial Port"
+                            }
+                        }
+                        GroupBox {
+                            Layout.alignment: Qt.AlignTop
+                            Layout.margins:  CoreSystemPalette.font.pixelSize
+                            Layout.fillWidth: true
+                            ColumnLayout {
+                                CoreComboBox {
+                                    id: serialPortInfoListBox
+                                    model: ["dummy1","dummy2"]
+                                }
+                                CoreLabel {
+                                    text: "Description:"
+                                }
+                                CoreLabel {
+                                    text: "Manufacturer:"
+                                }
+                                CoreLabel {
+                                    text: "Serial number:"
+                                }
+                                CoreLabel {
+                                    text: "Location:"
+                                }
+                                CoreLabel {
+                                    text: "Vendor ID:"
+                                }
+                                CoreLabel {
+                                    text: "Product ID:"
+                                }
+
+                            }
+                        }
+
+                    }
+
+                    ColumnLayout {
+                        Layout.alignment: Qt.AlignTop
+                        Layout.fillWidth: true
+                        ColumnLayout {
+                            CoreLabel {
+                                text: "Select Parameters"
+                            }
+                        }
+                        GroupBox {
+                            Layout.fillWidth: true
+                            Layout.rightMargin:   CoreSystemPalette.font.pixelSize
+                            Layout.alignment: Qt.AlignTop
+
+                            ColumnLayout {
+                                RowLayout {
+                                    CoreLabel {
+                                        text: "BaudRate"
+                                    }
+
+                                    CoreTextField {
+                                        text: "6600"
+                                    }
+                                }
+                                RowLayout {
+                                    CoreLabel {
+                                        text: "Data bits"
+                                    }
+
+                                    CoreTextField {
+                                        text: "8"
+                                    }
+                                }
+                                RowLayout {
+                                    CoreLabel {
+                                        text: "parity"
+                                    }
+                                    CoreComboBox {
+                                        model: ["None","Even","Odd","Mark","Space"]
+                                    }
+                                }
+                                RowLayout {
+                                    CoreLabel {
+                                        text: "Stop bits"
+                                    }
+                                    CoreComboBox {
+                                        model: ["1","2"]
+                                    }
+                                }
+                                RowLayout {
+                                    CoreLabel {
+                                        text: "Flow control"
+                                    }
+                                    CoreComboBox {
+                                        model: ["None","RTS/CTS","XON/XOFF"]
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+
+
+                CoreLabel {
+                    Layout.columnSpan:  2
+                     Layout.margins:  CoreSystemPalette.font.pixelSize
+                    text: "Additional options"
+                }
+                GroupBox {
+                    Layout.alignment: Qt.AlignTop
+                    Layout.columnSpan: 2
+                     Layout.margins:  CoreSystemPalette.font.pixelSize
+                    Layout.fillWidth: true
+                    CoreCheckBox {
+                        text: "Local echo"
+                    }
+                }
             }
-            Item {
-                Layout.fillHeight: true
-            }
+
         }
 
 
@@ -143,97 +266,6 @@ ColumnLayout {
             }
         }
     }
-    /*
-    RowLayout {
-        CoreButton {
-            text: "printSerialPorts"
-            onClicked: {
-                Constants.mytype.printSerialPorts()
-            }
-        }
-    }
-    RowLayout {
-        CoreButton {
-            text: "openSerialPort"
-            onClicked: {
-                //Constants.mytype.asyncConnectArduino((s)=>{console.log(s)})
-                Constants.mytype.openSerialPort()
-            }
-        }
-    }
-    RowLayout {
-        CoreButton {
-            text: "writeShalom"
-            onClicked: {
-                //Constants.mytype.asyncConnectArduino((s)=>{console.log(s)})
-                Constants.mytype.writeShalom()
-            }
-        }
-    }
-    RowLayout {
-        CoreButton {
-            text: "closeSerialPort"
-            onClicked: {
-                //Constants.mytype.asyncConnectArduino((s)=>{console.log(s)})
-                Constants.mytype.closeSerialPort()
-            }
-        }
-    }
 
-
-    RowLayout {
-        CoreLabel {
-            text: "Open serial "
-        }
-        CoreTextField {
-            placeholderText: "Port name"
-            Layout.fillWidth:true
-        }
-        CoreButton {
-            text: "Connect getClicked"
-            onClicked: {
-                Constants.mytype.getClinked()
-            }
-        }
-    }
-    RowLayout {
-        CoreLabel {
-            text: "Connected to serial " + "COM3"
-            Layout.fillWidth:true
-        }
-        CoreButton {
-            text: "Connect"
-        }
-    }
-    RowLayout {
-        CoreLabel {
-            text: "Error on serial " + "COM3"
-            Layout.fillWidth:true
-        }
-        CoreButton {
-            text: "Clear error"
-        }
-    }
-
-    RowLayout {
-        CoreLabel {
-            text: "Send serial input"
-        }
-        CoreTextField {
-            placeholderText: "Text to send"
-            Layout.fillWidth:true
-        }
-        CoreButton {
-            text: "Send"
-        }
-    }
-
-    CoreButton {
-        text: "Clear serial log"
-    }
-    CoreTextArea {
-        text: "Serial output"
-    }
-    */
 
 }
