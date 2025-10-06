@@ -13,14 +13,15 @@ import Design
 import Core
 
 ColumnLayout {
+    id: screenId
     width: parent.width
     height: parent.height
     GroupBox {
         Layout.margins:  CoreSystemPalette.font.pixelSize
         Layout.fillWidth: true
         RowLayout {
-             anchors.left: parent.left
-             anchors.right: parent.right
+            anchors.left: parent.left
+            anchors.right: parent.right
             CoreButton {
                 onClicked: {
                     console.log("clicked")
@@ -49,7 +50,7 @@ ColumnLayout {
             }
             CoreButton {
                 onClicked: {
-                    console.log("clicked")
+                    loaderId.sourceComponent = terminalSettingsId
                 }
                 icon.name: "Configure"
                 icon.source: Qt.resolvedUrl(
@@ -93,22 +94,53 @@ ColumnLayout {
         }
     }
 
-    CoreTextArea {
-        Layout.margins:  CoreSystemPalette.font.pixelSize
+    Loader  {
+        id: loaderId
         Layout.fillWidth: true
         Layout.fillHeight: true
-        text: "the text"
+        sourceComponent: terminalBodyId
+
+    }
+    Component {
+        id: terminalBodyId
+        ColumnLayout {
+            CoreTextArea {
+                Layout.margins:  CoreSystemPalette.font.pixelSize
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                text: "the text"
+            }
+        }
+    }
+
+    Component {
+        id: terminalSettingsId
+        ColumnLayout {
+
+            CoreButton {
+                Layout.margins:  CoreSystemPalette.font.pixelSize
+                onClicked: {
+                    loaderId.sourceComponent = terminalBodyId
+                }
+                text: "back"
+            }
+            Item {
+                Layout.fillHeight: true
+            }
+        }
+
+
     }
 
     GroupBox {
         Layout.margins:  CoreSystemPalette.font.pixelSize
         Layout.fillWidth: true
         RowLayout {
-             anchors.left: parent.left
-             anchors.right: parent.right
-             CoreLabel {
-                 text: "status"
-             }
+            anchors.left: parent.left
+            anchors.right: parent.right
+            CoreLabel {
+                text: "status"
+            }
         }
     }
     /*
@@ -137,7 +169,7 @@ ColumnLayout {
                 Constants.mytype.writeShalom()
             }
         }
-    }    
+    }
     RowLayout {
         CoreButton {
             text: "closeSerialPort"
@@ -146,7 +178,7 @@ ColumnLayout {
                 Constants.mytype.closeSerialPort()
             }
         }
-    }  
+    }
 
 
     RowLayout {
