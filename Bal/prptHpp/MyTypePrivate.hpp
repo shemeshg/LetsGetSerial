@@ -6,6 +6,8 @@
 #include <QObjectComputedProperty>
 #include <QQmlEngine>
 
+//- {include-header}
+#include "SettingsConnPrivate.hpp" //- #include "SettingsConnPrivate.h"
 
 //-only-file null
 /*[[[cog
@@ -22,6 +24,7 @@ class MyTypePrivate : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name  NOTIFY nameChanged )
+    Q_PROPERTY(SettingsConnPrivate * settingsConnPrivate READ settingsConnPrivate  NOTIFY settingsConnPrivateChanged )
     
     QML_ELEMENT
 public:
@@ -38,14 +41,20 @@ public:
     
 
     
+    SettingsConnPrivate * settingsConnPrivate() const{return m_settingsConnPrivate;} 
+    
+
+    
     
     
 signals:
     void nameChanged();
+    void settingsConnPrivateChanged();
     
 
 protected:
     QString m_name {"The backend init val"};
+    SettingsConnPrivate * m_settingsConnPrivate = new SettingsConnPrivate(this);
     
 
 private:

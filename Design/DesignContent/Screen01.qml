@@ -26,6 +26,7 @@ ColumnLayout {
             CoreButton {
                 onClicked: {
                     console.log("clicked")
+                    console.log(Constants.mytype.settingsConnPrivate.name)
                     //Constants.mytype.printSerialPorts()
                     //Constants.mytype.openSerialPort()
                     //Constants.mytype.writeShalom()

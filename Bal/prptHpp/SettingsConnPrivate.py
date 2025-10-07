@@ -9,9 +9,8 @@ ary = [
                 is_notify = True, 
                 is_list = False
                 ),
-    create_prpt("SettingsConnPrivate *", 'settingsConnPrivate', is_writable=False, init_val = "= new SettingsConnPrivate(this)"),                
 ]
 
 enumClasss = []
 
-prptClass = PrptClass("MyTypePrivate", ary, enumClasss)
+prptClass = PrptClass("SettingsConnPrivate", ary, enumClasss)
