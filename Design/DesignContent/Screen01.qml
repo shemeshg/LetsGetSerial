@@ -26,6 +26,11 @@ ColumnLayout {
             CoreButton {
                 onClicked: {
                     console.log("clicked")
+                    //Constants.mytype.printSerialPorts()
+                    //Constants.mytype.openSerialPort()
+                    //Constants.mytype.writeShalom()
+                    //Constants.mytype.closeSerialPort()
+                    //Constants.mytype.asyncConnectArduino((s)=>{console.log(s)})
                 }
                 icon.name: "Connect"
                 icon.source: Qt.resolvedUrl(
