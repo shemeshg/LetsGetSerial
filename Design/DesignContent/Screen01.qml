@@ -207,8 +207,11 @@ ColumnLayout {
                                     text: "BaudRate"
                                 }
 
-                                CoreTextField {
-                                    text: "6600"
+                                CoreComboBox  {
+                                    model: Constants.mytype.settingsConn.getBaudRateBox()
+                                    textRole: "str"
+                                    valueRole: "val"
+                                    currentValue: 9600
                                 }
                             }
                             RowLayout {
@@ -216,8 +219,11 @@ ColumnLayout {
                                     text: "Data bits"
                                 }
 
-                                CoreTextField {
-                                    text: "8"
+                                CoreComboBox  {
+                                    model: Constants.mytype.settingsConn.getDataBitsBox()
+                                    textRole: "str"
+                                    valueRole: "val"
+                                    currentValue: 8
                                 }
                             }
                             RowLayout {
@@ -225,7 +231,10 @@ ColumnLayout {
                                     text: "parity"
                                 }
                                 CoreComboBox {
-                                    model: ["None","Even","Odd","Mark","Space"]
+                                    model: Constants.mytype.settingsConn.getParityBox()
+                                    textRole: "str"
+                                    valueRole: "val"
+                                    currentValue: 0
                                 }
                             }
                             RowLayout {
@@ -233,7 +242,10 @@ ColumnLayout {
                                     text: "Stop bits"
                                 }
                                 CoreComboBox {
-                                    model: ["1","2"]
+                                    model: Constants.mytype.settingsConn.getStopBitsBox()
+                                    textRole: "str"
+                                    valueRole: "val"
+                                    currentValue: 1
                                 }
                             }
                             RowLayout {
@@ -241,7 +253,10 @@ ColumnLayout {
                                     text: "Flow control"
                                 }
                                 CoreComboBox {
-                                    model: ["None","RTS/CTS","XON/XOFF"]
+                                    model: Constants.mytype.settingsConn.getFlowControlBox()
+                                    textRole: "str"
+                                    valueRole: "val"
+                                    currentValue: 0
                                 }
                             }
                         }
