@@ -48,8 +48,8 @@ add_library(Bal STATIC
 ${CMAKE_CURRENT_BINARY_DIR}/hpp/mytype.h
 ${CMAKE_CURRENT_BINARY_DIR}/hpp/SerialMngr.cpp
 ${CMAKE_CURRENT_BINARY_DIR}/hpp/SerialMngr.h
-${CMAKE_CURRENT_BINARY_DIR}/hpp/mytype.cpp
-${CMAKE_CURRENT_BINARY_DIR}/hpp/mytype.h
+${CMAKE_CURRENT_BINARY_DIR}/hpp/SettingsConn.cpp
+${CMAKE_CURRENT_BINARY_DIR}/hpp/SettingsConn.h
 ${CMAKE_CURRENT_BINARY_DIR}/prptHpp/MyTypePrivate.h
 ${CMAKE_CURRENT_BINARY_DIR}/prptHpp/SettingsConnPrivate.h
 )        

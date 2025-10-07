@@ -9,7 +9,7 @@ ary = [
                 is_notify = True, 
                 is_list = False
                 ),
-    create_prpt("SettingsConnPrivate *", 'settingsConnPrivate', is_writable=False, init_val = "= new SettingsConnPrivate(this)"),                
+    create_prpt("SettingsConn *", 'settingsConn', is_writable=False, init_val = "= new SettingsConn(this)"),
 ]
 
 enumClasss = []

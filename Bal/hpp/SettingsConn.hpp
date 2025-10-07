@@ -1,5 +1,5 @@
-//-define-file body hpp/mytype.cpp
-//-define-file header hpp/mytype.h
+//-define-file body hpp/SettingsConn.cpp
+//-define-file header hpp/SettingsConn.h
 //-only-file header //-
 #pragma once
 #include <QObject>
@@ -10,6 +10,8 @@
 //- #include "SettingsConn.h"
 
 
+//- {include-header}
+#include "../prptHpp/SettingsConnPrivate.hpp" //- #include "../prptHpp/SettingsConnPrivate.h"
 
 
 
