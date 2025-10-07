@@ -7,6 +7,8 @@
 #include <qqmlregistration.h>
 #include <QSerialPort>
 #include <QTimer>
+#include <QJsonArray>
+#include <QJsonObject>
 //-only-file body //-
 //- #include "SerialMngr.h"
 #include<qDebug>
@@ -51,38 +53,30 @@ public:
     //-only-file header
 public slots:
     //- {fn}
-    QString printSerialPorts()
+    QJsonArray getSerialPorts()
     //-only-file body
     {
-
-
+        QJsonArray ret;
+        const QString blankString = "";
         QList<QSerialPortInfo> ports = QSerialPortInfo::availablePorts();
         for (const QSerialPortInfo &port : ports) {
-            qDebug() << "portName:" << port.portName();
+            QJsonObject obj;
+            const QString description = port.description();
+            const QString manufacturer = port.manufacturer();
+            const QString serialNumber = port.serialNumber();
+            const auto vendorId = port.vendorIdentifier();
+            const auto productId = port.productIdentifier();
+            obj["portName"] = port.portName();
+            obj["description"] = (!description.isEmpty() ? description : blankString);
+            obj["manufacturer"] = (!manufacturer.isEmpty() ? manufacturer : blankString);
+            obj["serialNumber"] = (!serialNumber.isEmpty() ? serialNumber : blankString);
+            obj["systemLocation"] = port.systemLocation();
+            obj["vendorId"] =  (vendorId ? QString::number(vendorId, 16) : blankString);
+            obj["productId"] = (productId ? QString::number(productId, 16) : blankString);
+            ret.append(obj);
 
-            qDebug() << "systemLocation:" << port.systemLocation();
-
-            /*
-            if (!port.manufacturer().isEmpty()) {
-                qDebug() << "manufacture:" << port.manufacturer();
-            }
-            */
-
-            if (!port.description().isEmpty()) {
-                qDebug() << "description:" << port.description();
-            }
-            if (!port.serialNumber().isEmpty()) {
-                qDebug() << "serialNumber:" << port.serialNumber();
-            }
-            if (port.hasProductIdentifier()) {
-                qDebug() << "productIdentifier:" << port.productIdentifier();
-            }
-            if (port.hasVendorIdentifier()) {
-                qDebug() << "hasVendorIdentifier:" << port.vendorIdentifier();
-            }
-            qDebug() << "****************";
         }
-        return "Clicked from backend";
+        return ret;
     }
 
     //- {fn}

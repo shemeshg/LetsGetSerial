@@ -26,8 +26,6 @@ ColumnLayout {
             CoreButton {
                 onClicked: {
                     console.log("clicked")
-                    console.log(Constants.mytype.settingsConn.name)
-                    //Constants.mytype.printSerialPorts()
                     //Constants.mytype.openSerialPort()
                     //Constants.mytype.writeShalom()
                     //Constants.mytype.closeSerialPort()
@@ -107,6 +105,7 @@ ColumnLayout {
         Layout.fillHeight: true
         sourceComponent: terminalBodyId
 
+
     }
     Component {
         id: terminalBodyId
@@ -124,7 +123,9 @@ ColumnLayout {
     Component {
         id: terminalSettingsId
         Column  {
+            Layout.fillWidth: true
             GridLayout {
+                width: parent.width
                 columns: 2
                 CoreButton {
                     Layout.leftMargin:   CoreSystemPalette.font.pixelSize
@@ -155,26 +156,35 @@ ColumnLayout {
                         Layout.fillWidth: true
                         ColumnLayout {
                             CoreComboBox {
-                                id: serialPortInfoListBox
-                                model: ["dummy1","dummy2"]
+                                id: serialPortId
+                                model: Constants.mytype.getSerialPorts()
+                                textRole: "portName"
+                                valueRole: "portName"
+
                             }
                             CoreLabel {
-                                text: "Description:"
+                                text: "Description: " +
+                                      serialPortId.model[serialPortId.currentIndex].description
                             }
                             CoreLabel {
-                                text: "Manufacturer:"
+                                text: "Manufacturer:" +
+                                      serialPortId.model[serialPortId.currentIndex].manufacturer
                             }
                             CoreLabel {
-                                text: "Serial number:"
+                                text: "Serial number:" +
+                                      serialPortId.model[serialPortId.currentIndex].serialNumber
                             }
                             CoreLabel {
-                                text: "Location:"
+                                text: "Location:" +
+                                      serialPortId.model[serialPortId.currentIndex].systemLocation
                             }
                             CoreLabel {
-                                text: "Vendor ID:"
+                                text: "Vendor ID:" +
+                                      serialPortId.model[serialPortId.currentIndex].vendorId
                             }
                             CoreLabel {
-                                text: "Product ID:"
+                                text: "Product ID:" +
+                                      serialPortId.model[serialPortId.currentIndex].productId
                             }
 
                         }

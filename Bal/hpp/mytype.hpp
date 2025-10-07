@@ -37,11 +37,11 @@ public:
     //-only-file header
 public slots:
     //- {fn}
-    QString printSerialPorts()
+    QJsonArray getSerialPorts()
     //-only-file body
     {
 
-      return m_serialMngr->printSerialPorts();
+      return m_serialMngr->getSerialPorts();
 
     }
 
