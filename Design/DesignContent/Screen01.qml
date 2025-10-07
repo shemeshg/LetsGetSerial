@@ -160,6 +160,9 @@ ColumnLayout {
                                 model: Constants.mytype.getSerialPorts()
                                 textRole: "portName"
                                 valueRole: "portName"
+                                onCurrentValueChanged:  {
+                                    Constants.mytype.settingsConn.serialPortName = currentValue
+                                }
 
                             }
                             CoreLabel {
@@ -211,7 +214,10 @@ ColumnLayout {
                                     model: Constants.mytype.settingsConn.getBaudRateBox()
                                     textRole: "str"
                                     valueRole: "val"
-                                    currentValue: 9600
+                                    currentValue: Constants.mytype.settingsConn.baudRate
+                                    onCurrentValueChanged:  {
+                                        Constants.mytype.settingsConn.baudRate = currentValue
+                                    }
                                 }
                             }
                             RowLayout {
@@ -223,7 +229,10 @@ ColumnLayout {
                                     model: Constants.mytype.settingsConn.getDataBitsBox()
                                     textRole: "str"
                                     valueRole: "val"
-                                    currentValue: 8
+                                    currentValue: Constants.mytype.settingsConn.dataBits
+                                    onCurrentValueChanged:  {
+                                        Constants.mytype.settingsConn.dataBits = currentValue
+                                    }
                                 }
                             }
                             RowLayout {
@@ -234,7 +243,10 @@ ColumnLayout {
                                     model: Constants.mytype.settingsConn.getParityBox()
                                     textRole: "str"
                                     valueRole: "val"
-                                    currentValue: 0
+                                    currentValue: Constants.mytype.settingsConn.parity
+                                    onCurrentValueChanged:  {
+                                        Constants.mytype.settingsConn.parity = currentValue
+                                    }
                                 }
                             }
                             RowLayout {
@@ -245,7 +257,10 @@ ColumnLayout {
                                     model: Constants.mytype.settingsConn.getStopBitsBox()
                                     textRole: "str"
                                     valueRole: "val"
-                                    currentValue: 1
+                                    currentValue: Constants.mytype.settingsConn.stopBits
+                                    onCurrentValueChanged:  {
+                                        Constants.mytype.settingsConn.stopBits = currentValue
+                                    }
                                 }
                             }
                             RowLayout {
@@ -256,7 +271,10 @@ ColumnLayout {
                                     model: Constants.mytype.settingsConn.getFlowControlBox()
                                     textRole: "str"
                                     valueRole: "val"
-                                    currentValue: 0
+                                    currentValue: Constants.mytype.settingsConn.flowControl
+                                    onCurrentValueChanged:  {
+                                        Constants.mytype.settingsConn.flowControl = currentValue
+                                    }
                                 }
                             }
                         }
@@ -277,6 +295,11 @@ ColumnLayout {
                     Layout.fillWidth: true
                     CoreCheckBox {
                         text: "Local echo"
+                        checked: Constants.mytype.settingsConn.isLocalEcho
+                        onToggled: {
+                            Constants.mytype.settingsConn.isLocalEcho = checked
+                        }
+
                     }
                 }
             }

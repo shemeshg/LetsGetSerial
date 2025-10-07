@@ -153,9 +153,9 @@ void set${field_name_initCap}(const ${field_type} ${ampr}new${field_name_initCap
             return ""
 
     def private_h_file(self, class_name: str) -> str:
-        if self.field_type == "int":
+        if self.field_type == "int" and self.init_val == "":
             self.init_val = "= 0"
-        if self.field_type == "bool":
+        if self.field_type == "bool" and self.init_val == "":
             self.init_val = "= false"
         
         if self.is_bindable:
