@@ -62,10 +62,10 @@ public slots:
     }
 
     //- {fn}
-    void writeShalom()
+    void writeKey(QString key)
     //-only-file body
     {
-        m_serialMngr->writeShalom();
+        m_serialMngr->writeKey(key);
     }
 
     //- {fn}

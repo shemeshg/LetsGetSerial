@@ -135,6 +135,27 @@ ColumnLayout {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 text: "the text"
+
+                focus: true
+                Keys.onPressed: (event)=>{
+                        let localEchoEnabled = true;
+                        switch (event.key) {
+                        case Qt.Key_Backspace:
+                        case Qt.Key_Left:
+                        case Qt.Key_Right:
+                        case Qt.Key_Up:
+                        case Qt.Key_Down:
+                            event.accepted = true;
+                            break;
+                        default:
+                            if (Constants.mytype.settingsConn.isLocalEcho) {
+                                event.accepted = false;
+                            } else {
+                                event.accepted = true;
+                            }
+                            Constants.mytype.writeKey(event.text);
+                        }
+                    }
             }
         }
     }

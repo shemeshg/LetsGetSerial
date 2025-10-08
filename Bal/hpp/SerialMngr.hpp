@@ -116,10 +116,10 @@ public slots:
 
 
     //- {fn}
-    void writeShalom()
+    void writeKey(QString key)
     //-only-file body
     {
-        writeData("shalom\r\n");
+        writeData(key.toLocal8Bit());
     }
 
     //- {fn}
