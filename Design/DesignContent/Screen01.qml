@@ -45,7 +45,7 @@ ColumnLayout {
             CoreButton {
                 enabled: Constants.mytype.connStatus !== MyType.ConnStatus.CONNECTED
                 onClicked: {
-                    Constants.mytype.asyncOpenSerialPort(()=>{})
+                    Constants.mytype.openSerialPort()
                 }
                 icon.name: "Connect"
                 icon.source: Qt.resolvedUrl(
@@ -59,7 +59,7 @@ ColumnLayout {
             CoreButton {
                 enabled: Constants.mytype.connStatus === MyType.ConnStatus.CONNECTED
                 onClicked: {
-                    console.log("clicked")
+                    Constants.mytype.closeSerialPort()
                 }
                 icon.name: "Disconnect"
                 icon.source: Qt.resolvedUrl(

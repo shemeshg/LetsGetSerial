@@ -37,11 +37,12 @@ public slots:
         return m_serialMngr->getSerialPorts();
     }
 
+
+
     //- {fn}
-    void asyncOpenSerialPort(const QJSValue &callback)
+    void openSerialPort()
     //-only-file body
     {
-        makeAsync<int>(callback, [=]() {
             QString connMsg{};
             bool connSuccessfull = m_serialMngr->openSerialPort(
                 settingsConn()->serialPortName(), settingsConn()->baudRate(),
@@ -58,8 +59,6 @@ public slots:
             } else {
                 setConnStatus(ConnStatus::ERR);
             }
-            return true;
-        });
     }
 
     //- {fn}
@@ -74,6 +73,8 @@ public slots:
     //-only-file body
     {
         m_serialMngr->closeSerialPort();
+        setStatusText("Disconnected");
+        setConnStatus(ConnStatus::NOT_CONNECTED);
     }
     //-only-file header
 
