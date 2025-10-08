@@ -11,6 +11,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Design
 import Core
+import Bal
 
 ColumnLayout {
     id: screenId
@@ -18,14 +19,34 @@ ColumnLayout {
     height: parent.height
     Layout.fillWidth: true
     GroupBox {
+        visible: loaderId.sourceComponent === terminalSettingsId
         Layout.margins:  CoreSystemPalette.font.pixelSize
         Layout.fillWidth: true
         RowLayout {
             anchors.left: parent.left
             anchors.right: parent.right
             CoreButton {
+                Layout.leftMargin:   CoreSystemPalette.font.pixelSize /2
+                Layout.rightMargin:    CoreSystemPalette.font.pixelSize
+                onClicked: {
+                    loaderId.sourceComponent = terminalBodyId
+                }
+                text: "back"
+            }
+        }
+    }
+    GroupBox {
+        visible: loaderId.sourceComponent !== terminalSettingsId
+        Layout.margins:  CoreSystemPalette.font.pixelSize
+        Layout.fillWidth: true
+        RowLayout {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            CoreButton {
+                enabled: Constants.mytype.connStatus !== MyType.ConnStatus.CONNECTED
                 onClicked: {
                     console.log("clicked")
+                    console.log(JSON.stringify( MyType.ConnStatus.ERR))
                     //Constants.mytype.openSerialPort()
                     //Constants.mytype.writeShalom()
                     //Constants.mytype.closeSerialPort()
@@ -41,6 +62,7 @@ ColumnLayout {
                 icon.height: CoreSystemPalette.font.pixelSize * 2
             }
             CoreButton {
+                enabled: Constants.mytype.connStatus === MyType.ConnStatus.CONNECTED
                 onClicked: {
                     console.log("clicked")
                 }
@@ -54,6 +76,7 @@ ColumnLayout {
                 icon.height: CoreSystemPalette.font.pixelSize * 2
             }
             CoreButton {
+                enabled: Constants.mytype.connStatus !== MyType.ConnStatus.CONNECTED
                 onClicked: {
                     loaderId.sourceComponent = terminalSettingsId
                 }
@@ -81,7 +104,7 @@ ColumnLayout {
             }
             CoreButton {
                 onClicked: {
-                    console.log("clicked")
+                     Qt.quit()
                 }
                 icon.name: "Quit"
                 icon.source: Qt.resolvedUrl(
@@ -112,6 +135,7 @@ ColumnLayout {
         Column  {
 
             CoreTextArea {
+                enabled: Constants.mytype.connStatus === MyType.ConnStatus.CONNECTED
                 Layout.margins:  CoreSystemPalette.font.pixelSize
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -127,15 +151,7 @@ ColumnLayout {
             GridLayout {
                 width: parent.width
                 columns: 2
-                CoreButton {
-                    Layout.leftMargin:   CoreSystemPalette.font.pixelSize
-                    Layout.rightMargin:    CoreSystemPalette.font.pixelSize
-                    Layout.columnSpan: 2
-                    onClicked: {
-                        loaderId.sourceComponent = terminalBodyId
-                    }
-                    text: "back"
-                }
+
                 CoreLabel {
                     Layout.leftMargin:   CoreSystemPalette.font.pixelSize
                     Layout.rightMargin:    CoreSystemPalette.font.pixelSize

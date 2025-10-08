@@ -25,6 +25,7 @@ class MyTypePrivate : public QObject
     Q_OBJECT
     Q_PROPERTY(QString name READ name  NOTIFY nameChanged )
     Q_PROPERTY(SettingsConn * settingsConn READ settingsConn  NOTIFY settingsConnChanged )
+    Q_PROPERTY(ConnStatus connStatus READ connStatus WRITE setConnStatus NOTIFY connStatusChanged )
     
     QML_ELEMENT
 public:
@@ -35,7 +36,12 @@ public:
         
     }
 
-    
+
+enum class ConnStatus {
+        NOT_CONNECTED, CONNECTED, ERR
+    };
+Q_ENUM(ConnStatus)
+
     
     QString name() const{return m_name;} 
     
@@ -45,11 +51,24 @@ public:
     
 
     
+    ConnStatus connStatus() const{return m_connStatus;} 
+    
+void setConnStatus(const ConnStatus &newConnStatus)
+    {
+        if (m_connStatus == newConnStatus)
+            return;
+        m_connStatus = newConnStatus;
+        emit connStatusChanged();
+    }
+
+
+    
     
     
 signals:
     void nameChanged();
     void settingsConnChanged();
+    void connStatusChanged();
     
 
 protected:
@@ -58,6 +77,7 @@ protected:
     
 
 private:
+    ConnStatus m_connStatus = ConnStatus::NOT_CONNECTED;
     
 };
 //-only-file null
