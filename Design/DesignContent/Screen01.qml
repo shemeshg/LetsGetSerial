@@ -45,12 +45,7 @@ ColumnLayout {
             CoreButton {
                 enabled: Constants.mytype.connStatus !== MyType.ConnStatus.CONNECTED
                 onClicked: {
-                    console.log("clicked")
-                    console.log(JSON.stringify( MyType.ConnStatus.ERR))
-                    //Constants.mytype.openSerialPort()
-                    //Constants.mytype.writeShalom()
-                    //Constants.mytype.closeSerialPort()
-                    //Constants.mytype.asyncConnectArduino((s)=>{console.log(s)})
+                    Constants.mytype.asyncOpenSerialPort(()=>{})
                 }
                 icon.name: "Connect"
                 icon.source: Qt.resolvedUrl(
@@ -174,6 +169,7 @@ ColumnLayout {
                             CoreComboBox {
                                 id: serialPortId
                                 model: Constants.mytype.getSerialPorts()
+                                implicitContentWidthPolicy: ComboBox.WidestText
                                 textRole: "portName"
                                 valueRole: "portName"
                                 onCurrentValueChanged:  {
@@ -332,7 +328,7 @@ ColumnLayout {
             anchors.left: parent.left
             anchors.right: parent.right
             CoreLabel {
-                text: "status"
+                text: Constants.mytype.statusText
             }
         }
     }

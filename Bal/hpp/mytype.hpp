@@ -10,13 +10,10 @@
 //-only-file body //-
 //- #include "mytype.h"
 
-
 //- {include-header}
 #include "../prptHpp/MyTypePrivate.hpp" //- #include "../prptHpp/MyTypePrivate.h"
 //- {include-header}
 #include "SerialMngr.hpp" //- #include "SerialMngr.h"
-
-
 
 //-only-file header
 //-var {PRE} "MyType::"mytype
@@ -28,11 +25,7 @@ public:
     //- {function} 1 1
     explicit MyType(QObject *parent = nullptr)
         //-only-file body
-        : MyTypePrivate(parent),m_serialMngr(new SerialMngr(this))
-    {
-
-
-    }
+        : MyTypePrivate(parent), m_serialMngr(new SerialMngr(this)) {}
 
     //-only-file header
 public slots:
@@ -41,15 +34,32 @@ public slots:
     //-only-file body
     {
 
-      return m_serialMngr->getSerialPorts();
-
+        return m_serialMngr->getSerialPorts();
     }
 
     //- {fn}
-    void openSerialPort()
+    void asyncOpenSerialPort(const QJSValue &callback)
     //-only-file body
     {
-        m_serialMngr->openSerialPort();
+        makeAsync<int>(callback, [=]() {
+            QString connMsg{};
+            bool connSuccessfull = m_serialMngr->openSerialPort(
+                settingsConn()->serialPortName(), settingsConn()->baudRate(),
+                (QSerialPort::DataBits)settingsConn()->dataBits(),
+                (QSerialPort::Parity)settingsConn()->parity(),
+                (QSerialPort::StopBits)settingsConn()->stopBits(),
+                (QSerialPort::FlowControl)settingsConn()->flowControl()
+                ,connMsg
+                );
+
+            setStatusText(connMsg);
+            if (connSuccessfull){
+                setConnStatus(ConnStatus::CONNECTED);
+            } else {
+                setConnStatus(ConnStatus::ERR);
+            }
+            return true;
+        });
     }
 
     //- {fn}
@@ -69,24 +79,22 @@ public slots:
 
 private slots:
 
-
-//-only-file header
+    //-only-file header
 private:
     SerialMngr *m_serialMngr;
 
-    template<typename T>
-    void makeAsync(const QJSValue &callback, std::function<T()> func)
-    {
+    template <typename T>
+    void makeAsync(const QJSValue &callback, std::function<T()> func) {
         auto *watcher = new QFutureWatcher<T>(this);
-        QObject::connect(watcher, &QFutureWatcher<T>::finished, this, [this, watcher, callback]() {
+        QObject::connect(watcher, &QFutureWatcher<T>::finished, this,
+                         [this, watcher, callback]() {
             T returnValue = watcher->result();
             QJSValue cbCopy(callback);
             QJSEngine *engine = qjsEngine(this);
-            cbCopy.call(QJSValueList{engine->toScriptValue(returnValue)});
+            cbCopy.call(
+                QJSValueList{engine->toScriptValue(returnValue)});
             watcher->deleteLater();
         });
         watcher->setFuture(QtConcurrent::run([=]() { return func(); }));
     }
-
-
 };

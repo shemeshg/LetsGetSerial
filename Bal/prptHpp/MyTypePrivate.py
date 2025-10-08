@@ -3,9 +3,9 @@ from propertyLib import create_prpt, PrptClass, EnumClass
 
 
 ary = [
-    create_prpt("QString", 'name',
-                init_val = '{"The backend init val"}',
-                is_writable  = False, 
+    create_prpt("QString", 'statusText',
+                init_val = '{"Not connected"}',
+                is_writable  = True,
                 is_notify = True, 
                 is_list = False
                 ),

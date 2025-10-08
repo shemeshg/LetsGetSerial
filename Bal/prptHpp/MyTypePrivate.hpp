@@ -23,7 +23,7 @@ cog.outl(prptClass.getClassHeader(),
 class MyTypePrivate : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString name READ name  NOTIFY nameChanged )
+    Q_PROPERTY(QString statusText READ statusText WRITE setStatusText NOTIFY statusTextChanged )
     Q_PROPERTY(SettingsConn * settingsConn READ settingsConn  NOTIFY settingsConnChanged )
     Q_PROPERTY(ConnStatus connStatus READ connStatus WRITE setConnStatus NOTIFY connStatusChanged )
     
@@ -36,15 +36,23 @@ public:
         
     }
 
-
+    
 enum class ConnStatus {
         NOT_CONNECTED, CONNECTED, ERR
     };
 Q_ENUM(ConnStatus)
 
     
-    QString name() const{return m_name;} 
+    QString statusText() const{return m_statusText;} 
     
+void setStatusText(const QString &newStatusText)
+    {
+        if (m_statusText == newStatusText)
+            return;
+        m_statusText = newStatusText;
+        emit statusTextChanged();
+    }
+
 
     
     SettingsConn * settingsConn() const{return m_settingsConn;} 
@@ -66,17 +74,17 @@ void setConnStatus(const ConnStatus &newConnStatus)
     
     
 signals:
-    void nameChanged();
+    void statusTextChanged();
     void settingsConnChanged();
     void connStatusChanged();
     
 
 protected:
-    QString m_name {"The backend init val"};
     SettingsConn * m_settingsConn = new SettingsConn(this);
     
 
 private:
+    QString m_statusText {"Not connected"};
     ConnStatus m_connStatus = ConnStatus::NOT_CONNECTED;
     
 };

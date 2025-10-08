@@ -8,8 +8,8 @@ import QtQuick.Layouts
 
 
 Window {
-    width:  400//Constants.width
-    height: 600 //Constants.height
+    width:  Constants.width
+    height: Constants.height
     
 
 

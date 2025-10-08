@@ -50,6 +50,39 @@ public:
 
     }
 
+
+    //- {fn}
+    bool openSerialPort(QString serialPortName, int baudRate,
+                        QSerialPort::DataBits dataBits,
+                        QSerialPort::Parity parity,
+                        QSerialPort::StopBits stopBits,
+                        QSerialPort::FlowControl flowControl,
+                        QString &connMsg
+                        )
+    //-only-file body
+    {
+        m_serial->setPortName(serialPortName);
+        m_serial->setBaudRate(baudRate);
+        m_serial->setDataBits(dataBits);
+        m_serial->setParity(parity);
+        m_serial->setStopBits(stopBits);
+        m_serial->setFlowControl(flowControl);
+        if (m_serial->open(QIODevice::ReadWrite)) {
+
+          connMsg = QString("Connected to %1 : %2, %3, %4, %5, %6")
+                            .arg(serialPortName).arg(baudRate).arg(dataBits)
+                                .arg(parity).arg(stopBits).arg(flowControl);
+
+
+            return true;
+        } else {
+            connMsg =QString("Error %1").arg(m_serial->errorString());
+
+            return false;
+        }
+
+    }
+
     //-only-file header
 public slots:
     //- {fn}
@@ -79,27 +112,8 @@ public slots:
         return ret;
     }
 
-    //- {fn}
-    void openSerialPort()
-    //-only-file body
-    {
-        m_serial->setPortName("cu.usbserial-833110");
-        m_serial->setBaudRate(QSerialPort::BaudRate::Baud9600);
-        m_serial->setDataBits(QSerialPort::DataBits::Data8);
-        m_serial->setParity(QSerialPort::Parity::NoParity);
-        m_serial->setStopBits(QSerialPort::StopBits::OneStop);
-        m_serial->setFlowControl(QSerialPort::FlowControl::NoFlowControl);
-        if (m_serial->open(QIODevice::ReadWrite)) {
-          /*  qDebug()<<tr("Connected to %1 : %2, %3, %4, %5, %6")
-                            .arg(p.name, p.stringBaudRate, p.stringDataBits,
-                                p.stringParity, p.stringStopBits, p.stringFlowControl);
-                                */
-             qDebug()<<"Connected";                  
-        } else {
-            qDebug()<<"Error"<<m_serial->errorString();
-            qDebug()<<"Open error";
-        }
-    }
+
+
 
     //- {fn}
     void writeShalom()

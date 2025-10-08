@@ -7,7 +7,7 @@ import Bal
 
 QtObject {
     readonly property int width: 800
-    readonly property int height: 400
+    readonly property int height: 800
 
     property string relativeFontDirectory: "fonts"
 
