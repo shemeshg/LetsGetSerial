@@ -61,6 +61,13 @@ ColumnLayout {
         }
     }
 
+    Component {
+        id: playgroundId
+        PlaygroundComponent  {
+
+        }
+    }
+
     StatusBarComponent {
         Layout.fillWidth: true
         Layout.margins: CoreSystemPalette.font.pixelSize

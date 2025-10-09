@@ -17,5 +17,6 @@ QML_FILES HeaderComponent.qml
 QML_FILES TerminalBodyComponent.qml
 QML_FILES TerminalSettingsComponent.qml
 QML_FILES StatusBarComponent.qml
+QML_FILES PlaygroundComponent.qml
         )
     

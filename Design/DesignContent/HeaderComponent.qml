@@ -8,7 +8,7 @@ import Bal
 ColumnLayout {
     id: headerComponentId
     GroupBox {
-        visible: loaderId.sourceComponent === terminalSettingsId
+        visible: loaderId.sourceComponent !== terminalBodyId
         Layout.margins:  CoreSystemPalette.font.pixelSize
         Layout.fillWidth: true
         RowLayout {
@@ -26,7 +26,7 @@ ColumnLayout {
     }
     
     GroupBox {
-        visible: loaderId.sourceComponent !== terminalSettingsId
+        visible: loaderId.sourceComponent === terminalBodyId
         Layout.margins:  CoreSystemPalette.font.pixelSize
         Layout.fillWidth: true
         RowLayout {
@@ -100,9 +100,21 @@ ColumnLayout {
                 icon.width: CoreSystemPalette.font.pixelSize * 2
                 icon.height: CoreSystemPalette.font.pixelSize * 2
             }
+
             Item {
                 Layout.fillWidth: true
             }
+
+            CoreButton {
+                text: "🛝"
+                font.pointSize: CoreSystemPalette.font.pixelSize * 1.5
+                isIconAnomation: false
+                hooverText: "Playground (Empty canvas to build your own thing)"
+                onClicked: {
+                    loaderId.sourceComponent = playgroundId
+                }
+            }
+
             
         }
     }
