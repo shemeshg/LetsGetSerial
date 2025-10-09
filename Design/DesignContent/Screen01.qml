@@ -149,7 +149,7 @@ ColumnLayout {
                 height: parent.height
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                //ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+
                 CoreTextArea {
                     width: parent.width
                     wrapMode: TextEdit.WrapAnywhere
@@ -180,10 +180,11 @@ ColumnLayout {
                                             break;
                                             default:
                                             if (Constants.mytype.settingsConn.isLocalEcho) {
-                                                event.accepted = false;
-                                            } else {
-                                                event.accepted = true;
+                                               // event.accepted = false;
+                                                consoleLogStr += event.text;
                                             }
+                                            event.accepted = true;
+
                                             Constants.mytype.writeKey(event.text);
                                         }
                                     }
