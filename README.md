@@ -4,6 +4,7 @@ A lightweight, extensible Qt QML-based serial terminal and graphing app designed
 LetsGetSerial provides a clean foundation for developers to build custom interfaces, 
 visualize data, and interact with their microcontrollers.
 
+## Arduino serial example
 
 ```c++
 void setup() {
@@ -30,6 +31,9 @@ void loop() {
 }
 ```
 
+## Playground scatch window
+
+https://github.com/shemeshg/LetsGetSerial/blob/main/Design/DesignContent/PlaygroundComponent.qml
 
 <img width="735" height="529" alt="image" src="https://github.com/user-attachments/assets/7d5d3b15-7c4f-41b7-a62e-53f9d6c02fe1" />
 
