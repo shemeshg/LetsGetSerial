@@ -116,7 +116,7 @@ public slots:
     }
 
     //- {fn}
-    void writeKey(QString key)
+    void writeKeys(QString key)
     //-only-file body
     {
         writeData(key.toLocal8Bit());

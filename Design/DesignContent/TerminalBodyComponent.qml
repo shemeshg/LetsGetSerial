@@ -51,7 +51,7 @@ Column  {
                                     }
                                     event.accepted = true;
 
-                                    Constants.mytype.writeKey(event.text);
+                                    Constants.mytype.writeKeys(event.text);
                                 }
                             }
         }

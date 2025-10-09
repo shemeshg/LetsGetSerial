@@ -82,10 +82,10 @@ public slots:
     }
 
     //- {fn}
-    void writeKey(QString key)
+    void writeKeys(QString key)
     //-only-file body
     {
-        m_serialMngr->writeKey(key);
+        m_serialMngr->writeKeys(key);
     }
 
     //- {fn}
