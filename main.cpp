@@ -5,6 +5,9 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
+    app.setOrganizationName("shemeshg");
+    app.setApplicationName("LetsGetSerial");
+
     QQmlApplicationEngine engine;
     QObject::connect(
         &engine,
