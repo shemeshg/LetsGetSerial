@@ -13,6 +13,7 @@ import Design
 import Core
 import Bal
 
+
 ColumnLayout {
     id: screenId
     width: parent.width

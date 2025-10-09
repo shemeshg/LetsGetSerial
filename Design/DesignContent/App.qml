@@ -5,13 +5,19 @@ import QtQuick
 import Design
 import Core
 import QtQuick.Layouts
-
+import QtCore
 
 Window {
+    id: window
     width:  Constants.width
     height: Constants.height
     
-
+    Settings {
+        property alias x: window.x
+        property alias y: window.y
+        property alias width: window.width
+        property alias height: window.height
+    }
 
     title: "Lets get serial"
     color: CoreSystemPalette.window
