@@ -25,7 +25,20 @@ public:
     //- {function} 1 1
     explicit MyType(QObject *parent = nullptr)
         //-only-file body
-        : MyTypePrivate(parent), m_serialMngr(new SerialMngr(this)) {}
+        : MyTypePrivate(parent), m_serialMngr(new SerialMngr(this)) {
+
+
+        m_serialMngr->processString = [this](const QString& s) {
+            emit addTextToConsole(s);
+            //qDebug() << "we have: " << s ;
+        };
+
+        m_serialMngr->processError = [this](const QString& connMsg) {
+            setStatusText(connMsg);
+            setConnStatus(ConnStatus::ERR);
+        };
+
+    }
 
     //-only-file header
 public slots:
@@ -77,6 +90,9 @@ public slots:
         setConnStatus(ConnStatus::NOT_CONNECTED);
     }
     //-only-file header
+
+signals:
+    void addTextToConsole(QString);
 
 private slots:
 

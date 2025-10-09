@@ -18,6 +18,17 @@ ColumnLayout {
     width: parent.width
     height: parent.height
     Layout.fillWidth: true
+
+
+
+
+    Connections {
+        target: Constants.mytype
+        function onAddTextToConsole(s) {
+           consoleLogId.text += s;
+        }
+    }
+
     GroupBox {
         visible: loaderId.sourceComponent === terminalSettingsId
         Layout.margins:  CoreSystemPalette.font.pixelSize
@@ -130,11 +141,12 @@ ColumnLayout {
         Column  {
 
             CoreTextArea {
+                id: consoleLogId
                 enabled: Constants.mytype.connStatus === MyType.ConnStatus.CONNECTED
                 Layout.margins:  CoreSystemPalette.font.pixelSize
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                text: "the text"
+                text: ""
 
                 focus: true
                 Keys.onPressed: (event)=>{
