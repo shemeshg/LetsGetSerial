@@ -98,7 +98,7 @@ ColumnLayout {
             }
             CoreButton {
                 onClicked: {
-                    console.log("clicked")
+                    loaderId.consoleLogStr = "";
                 }
                 icon.name: "Clear"
                 icon.source: Qt.resolvedUrl(
@@ -139,6 +139,7 @@ ColumnLayout {
 
         signal moveEndTextArea()
 
+
     }
     Component {
         id: terminalBodyId
@@ -158,6 +159,7 @@ ColumnLayout {
                         function onMoveEndTextArea() {
                             consoleLogId.cursorPosition = consoleLogId.text.length;
                         }
+
                     }
 
                     id: consoleLogId
@@ -180,8 +182,9 @@ ColumnLayout {
                                             break;
                                             default:
                                             if (Constants.mytype.settingsConn.isLocalEcho) {
-                                               // event.accepted = false;
+
                                                 consoleLogStr += event.text;
+                                               consoleLogId.cursorPosition = consoleLogId.text.length;
                                             }
                                             event.accepted = true;
 
