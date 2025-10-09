@@ -4,12 +4,14 @@ import QtQuick.Layouts
 import Design
 import Core
 import Bal
+import QtCore
 
 Column  {
     GridLayout {
         width: parent.width
         columns: 2
-        
+
+
         CoreLabel {
             Layout.leftMargin:   CoreSystemPalette.font.pixelSize
             Layout.rightMargin:    CoreSystemPalette.font.pixelSize
@@ -29,6 +31,9 @@ Column  {
                 Layout.margins:  CoreSystemPalette.font.pixelSize
                 Layout.fillWidth: true
                 ColumnLayout {
+                    Settings {
+                        property alias  serialPortId: serialPortId.currentValue
+                    }
                     CoreComboBox {
                         id: serialPortId
                         model: Constants.mytype.getSerialPorts()
@@ -37,8 +42,7 @@ Column  {
                         valueRole: "portName"
                         onCurrentValueChanged:  {
                             Constants.mytype.settingsConn.serialPortName = currentValue
-                        }
-                        
+                        }                        
                     }
                     CoreLabel {
                         text: "Description: " +
@@ -85,7 +89,11 @@ Column  {
                             text: "BaudRate"
                         }
                         
+                        Settings {
+                            property alias  baudRateId: baudRateId.currentValue
+                        }
                         CoreComboBox  {
+                            id: baudRateId
                             model: Constants.mytype.settingsConn.getBaudRateBox()
                             textRole: "str"
                             valueRole: "val"
@@ -99,8 +107,11 @@ Column  {
                         CoreLabel {
                             text: "Data bits"
                         }
-                        
+                        Settings {
+                            property alias  dataBitsId: dataBitsId.currentValue
+                        }
                         CoreComboBox  {
+                            id: dataBitsId
                             model: Constants.mytype.settingsConn.getDataBitsBox()
                             textRole: "str"
                             valueRole: "val"
@@ -114,7 +125,11 @@ Column  {
                         CoreLabel {
                             text: "parity"
                         }
+                        Settings {
+                            property alias  parityId: parityId.currentValue
+                        }
                         CoreComboBox {
+                            id: parityId
                             model: Constants.mytype.settingsConn.getParityBox()
                             textRole: "str"
                             valueRole: "val"
@@ -128,7 +143,11 @@ Column  {
                         CoreLabel {
                             text: "Stop bits"
                         }
+                        Settings {
+                            property alias  stopBitsId: stopBitsId.currentValue
+                        }
                         CoreComboBox {
+                            id: stopBitsId
                             model: Constants.mytype.settingsConn.getStopBitsBox()
                             textRole: "str"
                             valueRole: "val"
@@ -142,7 +161,11 @@ Column  {
                         CoreLabel {
                             text: "Flow control"
                         }
+                        Settings {
+                            property alias  flowControlId: flowControlId.currentValue
+                        }
                         CoreComboBox {
+                            id: flowControlId
                             model: Constants.mytype.settingsConn.getFlowControlBox()
                             textRole: "str"
                             valueRole: "val"

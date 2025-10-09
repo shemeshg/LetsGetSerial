@@ -38,6 +38,13 @@ public:
             setConnStatus(ConnStatus::ERR);
         };
 
+        QSettings settings;
+        m_settingsConn->setSerialPortName(settings.value("serialPortId","").toString());
+        m_settingsConn->setBaudRate(settings.value("baudRateId",9600).toInt());
+        m_settingsConn->setDataBits(settings.value("dataBitsId",QSerialPort::DataBits::Data8).toInt());
+        m_settingsConn->setDataBits(settings.value("parityId",QSerialPort::Parity::NoParity).toInt());
+        m_settingsConn->setDataBits(settings.value("stopBitsId",QSerialPort::StopBits::OneStop).toInt());
+        m_settingsConn->setDataBits(settings.value("flowControlId",QSerialPort::FlowControl::NoFlowControl).toInt());
     }
 
     //-only-file header
