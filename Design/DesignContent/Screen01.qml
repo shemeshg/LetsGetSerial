@@ -25,7 +25,7 @@ ColumnLayout {
     Connections {
         target: Constants.mytype
         function onAddTextToConsole(s) {
-           consoleLogId.text += s;
+           loaderId.consoleLogStr += s;
         }
     }
 
@@ -134,6 +134,7 @@ ColumnLayout {
         Layout.fillHeight: true
         sourceComponent: terminalBodyId
 
+        property string consoleLogStr: "";
 
     }
     Component {
@@ -146,7 +147,7 @@ ColumnLayout {
                 Layout.margins:  CoreSystemPalette.font.pixelSize
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                text: ""
+                text: consoleLogStr
 
                 focus: true
                 Keys.onPressed: (event)=>{
