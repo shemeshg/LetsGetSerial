@@ -25,7 +25,8 @@ ColumnLayout {
     Connections {
         target: Constants.mytype
         function onAddTextToConsole(s) {
-           loaderId.consoleLogStr += s;
+            loaderId.consoleLogStr += s;
+            loaderId.moveEndTextArea();
         }
     }
 
@@ -110,7 +111,7 @@ ColumnLayout {
             }
             CoreButton {
                 onClicked: {
-                     Qt.quit()
+                    Qt.quit()
                 }
                 icon.name: "Quit"
                 icon.source: Qt.resolvedUrl(
@@ -136,41 +137,60 @@ ColumnLayout {
 
         property string consoleLogStr: "";
 
+        signal moveEndTextArea()
+
     }
     Component {
         id: terminalBodyId
         Column  {
-
-            CoreTextArea {
-                id: consoleLogId
-                enabled: Constants.mytype.connStatus === MyType.ConnStatus.CONNECTED
-                Layout.margins:  CoreSystemPalette.font.pixelSize
+            Layout.fillWidth: true
+            ScrollView {
+                width: parent.width
+                height: parent.height
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                text: consoleLogStr
-
-                focus: true
-                Keys.onPressed: (event)=>{
-                        let localEchoEnabled = true;
-                        switch (event.key) {
-                        case Qt.Key_Backspace:
-                        case Qt.Key_Left:
-                        case Qt.Key_Right:
-                        case Qt.Key_Up:
-                        case Qt.Key_Down:
-                            event.accepted = true;
-                            break;
-                        default:
-                            if (Constants.mytype.settingsConn.isLocalEcho) {
-                                event.accepted = false;
-                            } else {
-                                event.accepted = true;
-                            }
-                            Constants.mytype.writeKey(event.text);
+                //ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+                CoreTextArea {
+                    width: parent.width
+                    wrapMode: TextEdit.WrapAnywhere
+                    Connections {
+                        target: loaderId
+                        function onMoveEndTextArea() {
+                            consoleLogId.cursorPosition = consoleLogId.text.length;
                         }
                     }
+
+                    id: consoleLogId
+                    enabled: Constants.mytype.connStatus === MyType.ConnStatus.CONNECTED
+                    Layout.margins:  CoreSystemPalette.font.pixelSize
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    text: consoleLogStr
+
+                    focus: true
+                    Keys.onPressed: (event)=>{
+                                        let localEchoEnabled = true;
+                                        switch (event.key) {
+                                            case Qt.Key_Backspace:
+                                            case Qt.Key_Left:
+                                            case Qt.Key_Right:
+                                            case Qt.Key_Up:
+                                            case Qt.Key_Down:
+                                            event.accepted = true;
+                                            break;
+                                            default:
+                                            if (Constants.mytype.settingsConn.isLocalEcho) {
+                                                event.accepted = false;
+                                            } else {
+                                                event.accepted = true;
+                                            }
+                                            Constants.mytype.writeKey(event.text);
+                                        }
+                                    }
+                }
             }
         }
+
     }
 
     Component {
