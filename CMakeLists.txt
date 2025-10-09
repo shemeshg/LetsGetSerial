@@ -40,6 +40,7 @@ set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
 add_subdirectory(design/Design)
 add_subdirectory(design/DesignContent)
 add_subdirectory(design/Core)
+add_subdirectory(design/Playground)
 add_subdirectory(Bal)
 
 target_link_libraries(${CMAKE_PROJECT_NAME}
@@ -48,6 +49,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
     Coreplugin
     Designplugin
     DesignContentplugin
+    Playgroundplugin
 )
 
 include(GNUInstallDirs)

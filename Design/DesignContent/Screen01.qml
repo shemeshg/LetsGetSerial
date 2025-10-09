@@ -12,7 +12,7 @@ import QtQuick.Layouts
 import Design
 import Core
 import Bal
-
+import Playground
 
 ColumnLayout {
     id: screenId

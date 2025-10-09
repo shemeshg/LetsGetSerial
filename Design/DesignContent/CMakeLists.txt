@@ -6,17 +6,16 @@
         RESOURCE_PREFIX "/qt/qml"
         QML_FILES
             App.qml
+HeaderComponent.qml
 Screen01.qml
+StatusBarComponent.qml
+TerminalBodyComponent.qml
+TerminalSettingsComponent.qml
         RESOURCES
             icons/application-exit.png
 icons/clear.png
 icons/connect.png
 icons/disconnect.png
 icons/settings.png
-QML_FILES HeaderComponent.qml
-QML_FILES TerminalBodyComponent.qml
-QML_FILES TerminalSettingsComponent.qml
-QML_FILES StatusBarComponent.qml
-QML_FILES PlaygroundComponent.qml
         )
     
