@@ -31,7 +31,7 @@ Column  {
             }
 
             id: consoleLogId
-            enabled: Constants.mytype.connStatus === MyType.ConnStatus.CONNECTED
+            enabled: Constants.mytype.connStatus === MyType.ConnStatus.CONNECTED            
             Layout.margins:  CoreSystemPalette.font.pixelSize
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -45,6 +45,13 @@ Column  {
                                 if ((event.modifiers & Qt.MetaModifier || event.modifiers & Qt.ControlModifier)
                                     ) {
                                     event.accepted = false;
+
+                                    if (Qt.ControlModifier &&
+                                                event.key !== Qt.Key_C){
+                                        event.accepted = true;
+                                        return;
+                                    }
+
                                     return;
                                 }
 
