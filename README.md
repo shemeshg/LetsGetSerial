@@ -65,7 +65,7 @@ void loop() {
 
 ## Playground scatch window
 
-https://github.com/shemeshg/LetsGetSerial/blob/main/Design/Playground/PlaygroundComponent.qml
+https://github.com/shemeshg/LetsGetSerial/blob/LED_ON_OFF_EXAMPLE/Design/Playground/PlaygroundComponent.qml
 
 
 <img width="270" height="217" alt="image" src="https://github.com/user-attachments/assets/778336bf-e307-47a3-93a0-7d44cbe63517" />
