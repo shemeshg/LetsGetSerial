@@ -5,6 +5,8 @@ Playground image change with Led when button pressed
 
 ## Arduino serial example
 
+Simple example where pressing button on Arduino, light a LED on Arduino and Image on playground screen
+
 ```c++
  const int ledOut = 8;
  const int buttonIn = 9;
