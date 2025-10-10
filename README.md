@@ -16,7 +16,8 @@ void setup() {
      // Wait for Serial to initialize
    }
 
-   Serial.write("Available commands\n");
+   Serial.write("Available commands:\n");
+   Serial.write("STATUS\n");
    Serial.write("LED_13\n");
    Serial.write("ECHO\n");
        
