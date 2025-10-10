@@ -1,34 +1,66 @@
-# LetsGetSerial
+# Description
 
-A lightweight, extensible Qt QML-based serial terminal and graphing app designed for Arduino projects. 
-LetsGetSerial provides a clean foundation for developers to build custom interfaces, 
-visualize data, and interact with their microcontrollers.
+Led on/off example
+Playground image change with Led when button pressed
 
 ## Arduino serial example
 
 ```c++
-void setup() {
-  Serial.begin(9600);
-  while (!Serial) {
-    // Wait for Serial to initialize
-  }
+ const int ledOut = 8;
+ const int buttonIn = 9;
 
-  String line = "";
-  while (line.length() == 0) {
-    if (Serial.available()) {
-      line = Serial.readStringUntil('\n');
+
+void setup() {
+
+    Serial.begin(9600);
+    while (!Serial) {
+      // Wait for Serial to initialize
+    }
+
+    Serial.write("Starting Loop\n");
+        
+    pinMode(ledOut, OUTPUT);
+    pinMode(9, INPUT_PULLUP);
+}
+
+void printLedStatus(){
+  if (digitalRead(buttonIn) == HIGH) {
+    Serial.println("LED STATUS: LOW");
+  } else {
+    Serial.println("LED STATUS: HIGH");
+  }
+}
+
+bool previousDigitalRead = HIGH;
+String inputLine = "";
+void loop() {
+  while (Serial.available() > 0) {
+    char c = Serial.read();
+    
+    if (c == '\n' || c == '\r') {
+      // Line complete, process it
+      Serial.println("Received: " + inputLine);
+      if (inputLine == "LED") {
+        printLedStatus();
+      }
+      inputLine = ""; // Clear for next line
+    } else {
+      inputLine += c;
     }
   }
-
-  Serial.write("Starting Loop\n");
+  
+  if (digitalRead(9) == HIGH) {
+    digitalWrite(ledOut, LOW);
+  } else {
+    digitalWrite(ledOut, HIGH);
+  }
+  
+  if (previousDigitalRead != digitalRead(buttonIn)){
+    previousDigitalRead = digitalRead(buttonIn);
+    printLedStatus();
+  }
 }
 
-
-void loop() {
-  // put your main code here, to run repeatedly:
-  int bytesSent = Serial.write("hello World\n"); 
-  delay(1000);
-}
 ```
 
 ## Playground scatch window

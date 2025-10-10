@@ -11,15 +11,29 @@ Column  {
     Connections {
         target: Constants.mytype
         function onAddTextToConsole(s) {
-            myDummyTextField.text = s;
+            s.split(/\r?\n/).forEach(line => {
+              if (line === "LED STATUS: LOW") {
+                ledImg.source = Qt.resolvedUrl("icons/LED_OFF.png")
+              } else if (line === "LED STATUS: HIGH") {
+                ledImg.source = Qt.resolvedUrl("icons/LED_ON.png");
+              } else {
+                //do nothing
+              }
+            });
         }
     }
     ColumnLayout {
-        CoreLabel {
-            text: "Write whatever you want"
+        Image {
+            id: ledImg
+            source: Qt.resolvedUrl(
+                        "icons/LED_OFF.png")
+            Layout.preferredWidth: 100
+            Layout.preferredHeight: 100
+            fillMode: Image.PreserveAspectFit
         }
+
         CoreButton {
-            text: "Example"
+            text: "Connect"
             Timer {
                 id: delayTimer
                 interval: 2000  // 2 seconds
@@ -27,7 +41,7 @@ Column  {
                 onTriggered: {
                     // 2 seconds have passed
                     if (Constants.mytype.connStatus === MyType.ConnStatus.CONNECTED) {
-                        Constants.mytype.writeKeys("\n")
+                        Constants.mytype.writeKeys("LED\n")
                     }
 
                 }
@@ -39,53 +53,8 @@ Column  {
 
             }
         }
-        CoreLabel {
-            id: myDummyTextField
-            text: "example response you may parse\nPaint a graph or whatever"
-        }
-        ColumnLayout {
-            ChartView {
-                width: 400
-                height: 300
-                theme: ChartView.ChartThemeBrownSand
-                antialiasing: true
 
-                ValueAxis {
-                    id: axisX
-                    min: 0
-                    max: 100
-                    titleText: "Time (s)"
-                }
 
-                ValueAxis {
-                    id: axisY
-                    min: 0
-                    max: 100
-                    titleText: "Temperature (°C)"
-                }
-
-                LineSeries {
-                    id: tempSeries
-                    name: "Temperature"
-                    axisX: axisX
-                    axisY: axisY
-                }
-            }
-
-            Timer {
-                id: updateTimer
-                interval: 1000 // 1 second
-                running: true
-                repeat: true
-                onTriggered: {
-                    // Simulate incoming temperature from Arduino
-                    var temp = Math.random() * 40 + 10 // Replace with actual serial input
-                    tempSeries.append(axisX.max, temp)
-                    axisX.max += 1
-                    if (temp > axisY.max) axisY.max = temp + 5
-                }
-            }
-        }
     }
 
 

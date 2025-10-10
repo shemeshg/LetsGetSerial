@@ -7,6 +7,7 @@
         QML_FILES
             PlaygroundComponent.qml
         RESOURCES
-            
+            icons/LED_OFF.png
+icons/LED_ON.png
         )
     
