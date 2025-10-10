@@ -65,9 +65,11 @@ void loop() {
 
 ## Playground scatch window
 
-https://github.com/shemeshg/LetsGetSerial/blob/main/Design/Design/Playground//PlaygroundComponent.qml
-
-<img width="735" height="529" alt="image" src="https://github.com/user-attachments/assets/7d5d3b15-7c4f-41b7-a62e-53f9d6c02fe1" />
+https://github.com/shemeshg/LetsGetSerial/blob/main/Design/Playground/PlaygroundComponent.qml
 
 
-<img width="729" height="535" alt="image" src="https://github.com/user-attachments/assets/a352e83b-9cde-4029-942e-9a2cc1356cb7" />
+<img width="270" height="217" alt="image" src="https://github.com/user-attachments/assets/778336bf-e307-47a3-93a0-7d44cbe63517" />
+
+<img width="192" height="257" alt="image" src="https://github.com/user-attachments/assets/18e42650-a4b9-4ed0-873d-c9e0f12ea04c" />
+
+
