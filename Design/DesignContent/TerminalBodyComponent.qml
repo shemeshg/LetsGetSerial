@@ -8,6 +8,11 @@ import Bal
 
 Column  {
     Layout.fillWidth: true
+
+    function doMoveToEndOfTextArea(){
+        consoleLogId.cursorPosition = consoleLogId.text.length;
+    }
+
     ScrollView {
         width: parent.width
         height: parent.height
@@ -20,7 +25,7 @@ Column  {
             Connections {
                 target: loaderId
                 function onMoveEndTextArea() {
-                    consoleLogId.cursorPosition = consoleLogId.text.length;
+                    doMoveToEndOfTextArea();
                 }
 
             }
@@ -35,6 +40,15 @@ Column  {
             focus: true
             Keys.onPressed: (event)=>{
                                 let localEchoEnabled = true;
+
+                                // Check for Cmd+C (macOS) or Ctrl+C (Windows/Linux)
+                                if ((event.modifiers & Qt.MetaModifier || event.modifiers & Qt.ControlModifier)
+                                    ) {
+                                    event.accepted = false;
+                                    return;
+                                }
+
+
                                 switch (event.key) {
                                     case Qt.Key_Backspace:
                                     case Qt.Key_Left:
@@ -47,7 +61,7 @@ Column  {
                                     if (Constants.mytype.settingsConn.isLocalEcho) {
 
                                         consoleLogStr += event.text;
-                                        consoleLogId.cursorPosition = consoleLogId.text.length;
+                                        doMoveToEndOfTextArea();
                                     }
                                     event.accepted = true;
 
