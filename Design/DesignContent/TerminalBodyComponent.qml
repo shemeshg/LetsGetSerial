@@ -47,10 +47,29 @@ Column  {
                                     event.accepted = false;
 
                                     if (Qt.ControlModifier &&
+                                                event.key === Qt.Key_V){
+
+                                        if (Constants.mytype.connStatus === MyType.ConnStatus.CONNECTED) {
+                                            let pasteText = Constants.mytype.getClipboard()
+                                            Constants.mytype.writeKeys(pasteText)
+                                            if (Constants.mytype.settingsConn.isLocalEcho) {
+                                                consoleLogStr += pasteText;
+                                                doMoveToEndOfTextArea();
+                                            }
+
+
+                                            event.accepted = true;
+                                        }
+
+                                        return;
+                                    }
+
+                                    if (Qt.ControlModifier &&
                                                 event.key !== Qt.Key_C){
                                         event.accepted = true;
                                         return;
                                     }
+
 
                                     return;
                                 }

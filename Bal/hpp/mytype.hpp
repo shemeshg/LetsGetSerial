@@ -7,8 +7,13 @@
 
 #include <QJSEngine>
 #include <QtConcurrent>
+
+
 //-only-file body //-
 //- #include "mytype.h"
+#include <QGuiApplication>
+#include <QClipboard>
+
 
 //- {include-header}
 #include "../prptHpp/MyTypePrivate.hpp" //- #include "../prptHpp/MyTypePrivate.h"
@@ -42,9 +47,10 @@ public:
         m_settingsConn->setSerialPortName(settings.value("serialPortId","").toString());
         m_settingsConn->setBaudRate(settings.value("baudRateId",9600).toInt());
         m_settingsConn->setDataBits(settings.value("dataBitsId",QSerialPort::DataBits::Data8).toInt());
-        m_settingsConn->setDataBits(settings.value("parityId",QSerialPort::Parity::NoParity).toInt());
-        m_settingsConn->setDataBits(settings.value("stopBitsId",QSerialPort::StopBits::OneStop).toInt());
-        m_settingsConn->setDataBits(settings.value("flowControlId",QSerialPort::FlowControl::NoFlowControl).toInt());
+        m_settingsConn->setParity(settings.value("parityId",QSerialPort::Parity::NoParity).toInt());
+        m_settingsConn->setStopBits(settings.value("stopBitsId",QSerialPort::StopBits::OneStop).toInt());
+        m_settingsConn->setFlowControl(settings.value("flowControlId",QSerialPort::FlowControl::NoFlowControl).toInt());
+        m_settingsConn->setIsLocalEcho(settings.value("isLocalEchoId", false).toBool());
     }
 
     //-only-file header
@@ -57,7 +63,14 @@ public slots:
         return m_serialMngr->getSerialPorts();
     }
 
-
+    //- {fn}
+    QString getClipboard()
+    //-only-file body
+    {
+        QClipboard *clipboard = QGuiApplication::clipboard();
+        QString originalText = clipboard->text();
+        return originalText;
+    }
 
     //- {fn}
     void openSerialPort()

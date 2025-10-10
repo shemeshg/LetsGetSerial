@@ -186,12 +186,17 @@ Column  {
             Layout.margins:  CoreSystemPalette.font.pixelSize
             text: "Additional options"
         }
-        GroupBox {
+
+        Settings {
+            property alias  isLocalEchoId: isLocalEchoId.checked
+        }
+        GroupBox {            
             Layout.alignment: Qt.AlignTop
             Layout.columnSpan: 2
             Layout.margins:  CoreSystemPalette.font.pixelSize
             Layout.fillWidth: true
             CoreCheckBox {
+                id: isLocalEchoId
                 text: "Local echo"
                 checked: Constants.mytype.settingsConn.isLocalEcho
                 onToggled: {

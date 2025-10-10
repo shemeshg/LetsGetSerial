@@ -7,28 +7,70 @@ visualize data, and interact with their microcontrollers.
 ## Arduino serial example
 
 ```c++
+const int LEDOUT_13 = 13;
+
 void setup() {
-  Serial.begin(9600);
-  while (!Serial) {
-    // Wait for Serial to initialize
-  }
 
-  String line = "";
-  while (line.length() == 0) {
-    if (Serial.available()) {
-      line = Serial.readStringUntil('\n');
-    }
-  }
+   Serial.begin(9600);
+   while (!Serial) {
+     // Wait for Serial to initialize
+   }
 
-  Serial.write("Starting Loop\n");
+   Serial.write("Available commands\n");
+   Serial.write("LED_13\n");
+   Serial.write("ECHO\n");
+       
+   pinMode(LEDOUT_13, OUTPUT);
 }
 
+bool previous_LEDOUT_13= LOW;
+bool isECHO = false;
+void printLedStatus(){
+ if (previous_LEDOUT_13 == HIGH) {
+   Serial.println("LED_13 STATUS: HIGH");
+ } else {
+   Serial.println("LED_13 STATUS: LOW");
+ }
+ if (isECHO) {
+   Serial.println("ECHO STATUS: ON");
+ } else {
+   Serial.println("ECHO STATUS: OFF");
+ }
+}
 
+String inputLine = "";
 void loop() {
-  // put your main code here, to run repeatedly:
-  int bytesSent = Serial.write("hello World\n"); 
-  delay(1000);
+ while (Serial.available() > 0) {
+   char c = Serial.read();
+   
+   if (c == '\n' || c == '\r') {
+     if (isECHO) {
+       Serial.write(c);
+     }
+     // Line complete, process it     
+     if (inputLine == "STATUS") {
+       printLedStatus();
+     } else if (inputLine == "LED_13") {
+       previous_LEDOUT_13 = !previous_LEDOUT_13;
+       digitalWrite(LEDOUT_13, previous_LEDOUT_13);
+     } else if (inputLine == "ECHO") {
+       isECHO = !isECHO;
+     }
+     else {
+        Serial.println("Received: " + inputLine);
+       Serial.println("COMMAND DOES NOT EXISTS");
+     }
+
+     inputLine = ""; // Clear for next line
+   } else {
+     inputLine += c;
+     if (isECHO) {
+       Serial.write(c);
+     }
+   }
+ }
 }
+
 ```
 
 ## Playground scatch window

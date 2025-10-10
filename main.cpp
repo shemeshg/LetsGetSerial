@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
     app.setApplicationName("LetsGetSerial");
 
     QQmlApplicationEngine engine;
+
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreationFailed,
