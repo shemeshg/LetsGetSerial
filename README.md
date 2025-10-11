@@ -210,7 +210,8 @@ void loop() {
 
 https://github.com/shemeshg/LetsGetSerial/blob/main/Design/Playground/PlaygroundComponent.qml
 
-<img width="433" height="363" alt="image" src="https://github.com/user-attachments/assets/71cfd430-72b6-433b-b873-f5f909242c17" />
+<img width="410" height="474" alt="image" src="https://github.com/user-attachments/assets/5fc4ad08-cc1f-4ee1-9ae0-da809400ec27" />
+
 
 
 
