@@ -8,18 +8,21 @@ import QtCharts
 
 
 Column  {
+
+
     Connections {
         target: Constants.mytype
         function onAddTextToConsole(s) {
-            myDummyTextField.text = s;
+            // New input to parse
         }
     }
     ColumnLayout {
+        width: parent.width
         CoreLabel {
             text: "Write whatever you want"
         }
         CoreButton {
-            text: "Example"
+            text: "pinMode 9 OUTPUT"
             Timer {
                 id: delayTimer
                 interval: 2000  // 2 seconds
@@ -27,7 +30,7 @@ Column  {
                 onTriggered: {
                     // 2 seconds have passed
                     if (Constants.mytype.connStatus === MyType.ConnStatus.CONNECTED) {
-                        Constants.mytype.writeKeys("\n")
+                        Constants.mytype.writeKeys("pinMode 9 OUTPUT\n")
                     }
 
                 }
@@ -35,55 +38,20 @@ Column  {
             onClicked: {
                 Constants.mytype.openSerialPort()
                 delayTimer.start()
-
-
             }
         }
         CoreLabel {
-            id: myDummyTextField
-            text: "example response you may parse\nPaint a graph or whatever"
+            text: "analogWrite 9 " + parseInt( sliderId.value)
         }
-        ColumnLayout {
-            ChartView {
-                width: 400
-                height: 300
-                theme: ChartView.ChartThemeBrownSand
-                antialiasing: true
 
-                ValueAxis {
-                    id: axisX
-                    min: 0
-                    max: 100
-                    titleText: "Time (s)"
-                }
-
-                ValueAxis {
-                    id: axisY
-                    min: 0
-                    max: 100
-                    titleText: "Temperature (°C)"
-                }
-
-                LineSeries {
-                    id: tempSeries
-                    name: "Temperature"
-                    axisX: axisX
-                    axisY: axisY
-                }
-            }
-
-            Timer {
-                id: updateTimer
-                interval: 1000 // 1 second
-                running: true
-                repeat: true
-                onTriggered: {
-                    // Simulate incoming temperature from Arduino
-                    var temp = Math.random() * 40 + 10 // Replace with actual serial input
-                    tempSeries.append(axisX.max, temp)
-                    axisX.max += 1
-                    if (temp > axisY.max) axisY.max = temp + 5
-                }
+        CoreSlider {
+            id: sliderId
+            Layout.fillWidth: true
+            from: 0
+            value: 0
+            to: 255
+            onMoved: ()=>{
+                Constants.mytype.writeKeys("analogWrite 9 " + parseInt( sliderId.value) + "\n")
             }
         }
     }
