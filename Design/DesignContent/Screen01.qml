@@ -26,10 +26,29 @@ ColumnLayout {
     Connections {
         target: Constants.mytype
         function onAddTextToConsole(s) {
+            if (s.startsWith("Heartbit:")) {return;}
             loaderId.consoleLogStr += s;
             loaderId.moveEndTextArea();
         }
     }
+
+    //PLayground Connection
+    property bool isPlaygroungHigh: true;
+    Connections {
+        target: Constants.mytype
+        function onAddTextToConsole(s) {
+           if (s.startsWith("Heartbit:")) {
+               if (isPlaygroungHigh) {
+                Constants.mytype.writeKeys("digitalWrite 9 HIGH\n")
+               } else {
+                Constants.mytype.writeKeys("digitalWrite 9 LOW\n")
+               }
+               isPlaygroungHigh = !isPlaygroungHigh;
+           }
+        }
+    }
+    //End Connection
+
 
     HeaderComponent {
         id: headerComponentId
