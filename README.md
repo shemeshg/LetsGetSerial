@@ -6,6 +6,8 @@ visualize data, and interact with their microcontrollers.
 
 ## Arduino serial example
 
+Open Pin 9, and based on heartbeat from Arduino, blick every second
+
 ```c++
 class PinStatus {
 public:
