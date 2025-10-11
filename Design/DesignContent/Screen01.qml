@@ -26,6 +26,11 @@ ColumnLayout {
     Connections {
         target: Constants.mytype
         function onAddTextToConsole(s) {
+            /*
+            if (s.startsWith("Heartbit:")) {
+                return;
+            }
+            */
             loaderId.consoleLogStr += s;
             loaderId.moveEndTextArea();
         }

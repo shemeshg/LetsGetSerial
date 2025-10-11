@@ -13,9 +13,24 @@ Column  {
         consoleLogId.cursorPosition = consoleLogId.text.length;
     }
 
+    RowLayout{
+        visible: Constants.mytype.connStatus === MyType.ConnStatus.CONNECTED
+        Layout.fillWidth: true
+        width: parent.width
+        CoreTextField {
+            Layout.margins:  CoreSystemPalette.font.pixelSize
+            Layout.fillWidth: true
+            width: parent.width
+            text: ""
+            placeholderText: "Enter to submit"
+            onAccepted: {
+                Constants.mytype.writeKeys(text + "\n")
+            }
+        }
+    }
     ScrollView {
         width: parent.width
-        height: parent.height
+        height: parent.height - CoreSystemPalette.font.pixelSize *2
         Layout.fillWidth: true
         Layout.fillHeight: true
 
@@ -31,7 +46,7 @@ Column  {
             }
 
             id: consoleLogId
-            enabled: Constants.mytype.connStatus === MyType.ConnStatus.CONNECTED            
+            enabled: Constants.mytype.connStatus === MyType.ConnStatus.CONNECTED
             Layout.margins:  CoreSystemPalette.font.pixelSize
             Layout.fillWidth: true
             Layout.fillHeight: true

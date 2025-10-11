@@ -33,7 +33,9 @@ Column  {
                 }
             }
             onClicked: {
-                Constants.mytype.openSerialPort()
+                if (Constants.mytype.connStatus !== MyType.ConnStatus.CONNECTED) {
+                    Constants.mytype.openSerialPort()
+                }
                 delayTimer.start()
 
 

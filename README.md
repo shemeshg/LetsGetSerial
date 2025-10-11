@@ -136,16 +136,13 @@ void setAnalogRead(String inputLine){
   Serial.println("READ: " + String(pin) + " " + String(analogRead(pin)));
 }
 
+unsigned long previousMillis = 0;
+const long interval = 1000; // 1 second
+int intervalCounter = 0;
 
-
-void setup() {
-
-   Serial.begin(9600);
-   while (!Serial) {
-     // Wait for Serial to initialize
-   }
-
+void printHelp() {
    Serial.write("Available commands:\n");
+   Serial.write("? - help");
    Serial.write("STATUS\n");
    Serial.write("ECHO\n");
    Serial.write("pinMode int <OUTPUT|INPUT|INPUT_PULLUP>\n");
@@ -153,6 +150,26 @@ void setup() {
    Serial.write("analogWrite int <int 1..255>\n");
    Serial.write("digitalRead int \n");
    Serial.write("analogRead int \n");
+}
+
+
+void heartBeat(){
+  unsigned long currentMillis = millis();
+  if (currentMillis - previousMillis >= interval) {
+    previousMillis = currentMillis;
+    intervalCounter++;
+    Serial.println("Heartbit: " + String( intervalCounter));
+  }
+}
+
+void setup() {
+
+   Serial.begin(115200);
+   while (!Serial) {
+     // Wait for Serial to initialize
+   }
+  printHelp();
+
 }
 
 bool isECHO = false;
@@ -166,6 +183,8 @@ void printLedStatus(){
 
 String inputLine = "";
 void loop() {
+  //heartBeat();
+
  while (Serial.available() > 0) {
    char c = Serial.read();
    
@@ -173,8 +192,10 @@ void loop() {
      if (isECHO) {
        Serial.write(c);
      }
-     // Line complete, process it     
-     if (inputLine == "STATUS") {
+     // Line complete, process it 
+     if (inputLine == "?") {
+      printHelp();
+     } else if (inputLine == "STATUS") {
        printLedStatus();
      } else if (inputLine.startsWith("pinMode")) {
         setPinMode(inputLine);
