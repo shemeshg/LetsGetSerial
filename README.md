@@ -116,13 +116,27 @@ void setDigitalWrite(String inputLine){
   updatePinVal(pin, "Digital", mode); 
 }
 
-void setAnalogWrite(String inputLine){
-  
+
+void setAnalogWrite(String inputLine){  
   int pin = getIntPart(inputLine,1);
   int val = getIntPart(inputLine,2);
   analogWrite(pin, val);
   updatePinVal(pin, "Analog", val);
 }
+
+void setDigitalRead(String inputLine){
+  int pin = getIntPart(inputLine,1);
+
+
+  Serial.println("READ: " + String(pin) + " " + String(digitalRead(pin)));
+}
+
+void setAnalogRead(String inputLine){
+  int pin = getIntPart(inputLine,1);
+  Serial.println("READ: " + String(pin) + " " + String(analogRead(pin)));
+}
+
+
 
 void setup() {
 
@@ -137,7 +151,8 @@ void setup() {
    Serial.write("pinMode int <OUTPUT|INPUT|INPUT_PULLUP>\n");
    Serial.write("digitalWrite int <HIGH|LOW>\n");
    Serial.write("analogWrite int <int 1..255>\n");
-   
+   Serial.write("digitalRead int \n");
+   Serial.write("analogRead int \n");
 }
 
 bool isECHO = false;
@@ -167,8 +182,12 @@ void loop() {
         setDigitalWrite(inputLine);
      } else if (inputLine.startsWith("analogWrite")) {
         setAnalogWrite(inputLine);
+     } else if (inputLine.startsWith("digitalRead")) {
+        setDigitalRead(inputLine);
+     } else if (inputLine.startsWith("analogRead")) {
+        setAnalogRead(inputLine);
      } else if (inputLine == "ECHO") {
-        isECHO = !isECHO;
+        isECHO = !isECHO;        
      }
      else {
         Serial.println("Received: " + inputLine);
@@ -184,7 +203,6 @@ void loop() {
    }
  }
 }
-
 
 ```
 
