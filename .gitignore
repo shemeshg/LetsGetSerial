@@ -74,3 +74,6 @@ CMakeLists.txt.user*
 
 # build folder
 build/
+builds/
+.vscode/
+**/.qmlls.ini
