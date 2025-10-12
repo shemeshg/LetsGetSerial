@@ -11,7 +11,7 @@
 //-only-file body //-
 //- #include "SerialMngr.h"
 #include <QSerialPortInfo>
-#include <qDebug>
+#include <QDebug>
 static constexpr std::chrono::seconds kWriteTimeout = std::chrono::seconds{5};
 
 //-only-file header

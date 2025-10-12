@@ -37,10 +37,10 @@ set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-add_subdirectory(design/Design)
-add_subdirectory(design/DesignContent)
-add_subdirectory(design/Core)
-add_subdirectory(design/Playground)
+add_subdirectory(Design/Design)
+add_subdirectory(Design/DesignContent)
+add_subdirectory(Design/Core)
+add_subdirectory(Design/Playground)
 add_subdirectory(Bal)
 
 target_link_libraries(${CMAKE_PROJECT_NAME}
