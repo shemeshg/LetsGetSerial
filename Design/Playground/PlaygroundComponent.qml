@@ -7,7 +7,10 @@ import Bal
 import QtCharts
 
 
+
 Column  {
+
+
     Connections {
         target: Constants.mytype
         function onAddTextToConsole(s) {
