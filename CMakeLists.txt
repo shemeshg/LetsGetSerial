@@ -5,7 +5,7 @@
 # ]]]
 cmake_minimum_required(VERSION 3.16)
 
-project(lets-get-serial VERSION 2.5.0 LANGUAGES CXX)
+project(lets-get-serial VERSION 0.0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(QT_QML_GENERATE_QMLLS_INI ON)

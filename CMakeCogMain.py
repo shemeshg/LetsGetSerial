@@ -2,7 +2,7 @@ from jinja2 import Environment, FileSystemLoader
 import os
 
 template_dict = {"APP_NAME": "lets-get-serial",
-           "APP_VER": "2.5.0",
+           "APP_VER": "0.0.1",
            "QT_COMPONENTS": [ "Quick","Widgets","SerialPort"],
            "APP_DESCRIPTION": "Lets get serial",
            "APP_VENDOR": "shemeshg",
