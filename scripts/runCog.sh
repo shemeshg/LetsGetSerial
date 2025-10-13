@@ -19,3 +19,5 @@ cd "$script_dir/.."
 cd  Bal/
 cog -r CMakeLists.txt
 
+cd "$script_dir/.."
+cog -r CMakeLists.txt
