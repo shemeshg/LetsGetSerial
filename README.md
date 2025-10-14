@@ -16,22 +16,42 @@ public:
   int pinNumber;
   String mode;      // "INPUT", "OUTPUT", "INPUT_PULLUP"
   String writeType; // "digital", "analog"
-  int lastValue;
   bool isFollow = false;
   int followAnalogTolerance = 0;
+  int millisInterval = 0;
 
   PinStatus(int pin, String m, String wType, int val)
   {
     pinNumber = pin;
     mode = m;
     writeType = wType;
-    lastValue = val;
+    setLastVal(val);
   }
 
   String getStatusString()
   {
     return "Pin " + String(pinNumber) + ": Mode=" + mode + ", WriteType=" + writeType + ", LastValue=" + String(lastValue) + " FollowMode:" + isFollow;
   }
+
+  void setLastVal(int v)
+  {
+    lastValue = v;
+    lastMilis = millis();
+  }
+
+  int getLastVal()
+  {
+    return lastValue;
+  }
+
+  bool isIntervalPassed()
+  {
+    return (millis() - lastMilis >= millisInterval);
+  }
+
+private:
+  int lastValue;
+  unsigned long lastMilis;
 };
 
 const int MAX_PINS = 20;
@@ -57,7 +77,7 @@ void updatePinStatus(int pin, String mode, String writeType, int value)
   {
     existing->mode = mode;
     existing->writeType = writeType;
-    existing->lastValue = value;
+    existing->setLastVal(value);
   }
   else if (pinCount < MAX_PINS)
   {
@@ -71,7 +91,7 @@ void updatePinVal(int pin, String writeType, int value)
   if (existing != nullptr)
   {
     existing->writeType = writeType;
-    existing->lastValue = value;
+    existing->setLastVal(value);
   }
   else if (pinCount < MAX_PINS)
   {
@@ -122,6 +142,7 @@ void setPinMode(String inputLine)
   int mode = OUTPUT;
   int pin = getIntPart(inputLine, 1);
   String strMode = getStrPart(inputLine, 2);
+
   if (strMode == "INPUT")
   {
     mode = INPUT;
@@ -160,7 +181,7 @@ void setDigitalRead(String inputLine)
   int val = digitalRead(pin);
   PinStatus *pinStatus = getPinStatus(pin);
   pinStatus->writeType = "Digital";
-  pinStatus->lastValue = val;
+  pinStatus->setLastVal(val);
   Serial.println("READ: " + String(pin) + " " + String(val));
 }
 
@@ -170,7 +191,7 @@ void setAnalogRead(String inputLine)
   int val = analogRead(pin);
   PinStatus *pinStatus = getPinStatus(pin);
   pinStatus->writeType = "Analog";
-  pinStatus->lastValue = val;
+  pinStatus->setLastVal(val);
   Serial.println("READ: " + String(pin) + " " + String(val));
 }
 
@@ -180,6 +201,7 @@ void setFollowMode(String inputLine)
   PinStatus *pinStatus = getPinStatus(pin);
   pinStatus->isFollow = getIntPart(inputLine, 2);
   pinStatus->followAnalogTolerance = getIntPart(inputLine, 3);
+  pinStatus->millisInterval = getIntPart(inputLine, 4);
 }
 
 bool isECHO = false;
@@ -208,7 +230,7 @@ void printHelp()
   Serial.write("analogWrite int <int 1..255>\n");
   Serial.write("digitalRead int \n");
   Serial.write("analogRead int \n");
-  Serial.write("followMode int int int - <pin> <0/1 to follow input> <followAnalogTolerance>\n");
+  Serial.write("followMode int int int - <pin> <0/1 to follow input> <followAnalogTolerance>  <int millis interval 0=false>\n");
   Serial.write("heartbeat <int heartbeatIntervalCounter start 0=false> <int millis interval>\n");
 }
 
@@ -330,19 +352,19 @@ void followNotification()
       if (pinArray[i]->writeType == "Analog")
       {
         int valRed = analogRead(pinArray[i]->pinNumber);
-        if (abs(pinArray[i]->lastValue - valRed) > pinArray[i]->followAnalogTolerance)
+        if (abs(pinArray[i]->getLastVal() - valRed) > pinArray[i]->followAnalogTolerance && pinArray[i]->isIntervalPassed())
         {
-          pinArray[i]->lastValue = valRed;
-          Serial.println("CHANGED: " + String(pinArray[i]->pinNumber) + " " + String(pinArray[i]->lastValue));
+          pinArray[i]->setLastVal(valRed);
+          Serial.println("CHANGED: " + String(pinArray[i]->pinNumber) + " " + String(pinArray[i]->getLastVal()));
         }
       }
       else
       {
         int valRed = digitalRead(pinArray[i]->pinNumber);
-        if (valRed != pinArray[i]->lastValue)
+        if (valRed != pinArray[i]->getLastVal() && pinArray[i]->isIntervalPassed())
         {
-          pinArray[i]->lastValue = valRed;
-          Serial.println("CHANGED: " + String(pinArray[i]->pinNumber) + " " + String(pinArray[i]->lastValue));
+          pinArray[i]->setLastVal(valRed);
+          Serial.println("CHANGED: " + String(pinArray[i]->pinNumber) + " " + String(pinArray[i]->getLastVal()));
         }
       }
     }
@@ -362,20 +384,21 @@ void loop()
 Available commands:
 ? - help
 STATUS
-ECHO
+ECHO <int bool>
 pinMode int <OUTPUT|INPUT|INPUT_PULLUP>
 digitalWrite int <HIGH|LOW>
 analogWrite int <int 1..255>
 digitalRead int 
 analogRead int 
-followMode int int int - <pin> <0/1 to follow input> <followAnalogTolerance>
+followMode int int int - <pin> <0/1 to follow input> <followAnalogTolerance>  <int millis interval 0=false>
+heartbeat <int heartbeatIntervalCounter start 0=false> <int millis interval>
 ```
 
 For example
 ```
 pinMode 14 INPUT
 analogRead 14
-followMode 14 1 4
+followMode 14 1 4 100
 ```
 
 ## Playground scatch window

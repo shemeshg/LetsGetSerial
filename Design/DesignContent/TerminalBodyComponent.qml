@@ -46,7 +46,7 @@ Column  {
             }
 
             id: consoleLogId
-            enabled: Constants.mytype.connStatus === MyType.ConnStatus.CONNECTED
+            readOnly:  Constants.mytype.connStatus !== MyType.ConnStatus.CONNECTED
             Layout.margins:  CoreSystemPalette.font.pixelSize
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -54,6 +54,8 @@ Column  {
 
             focus: true
             Keys.onPressed: (event)=>{
+
+
                                 let localEchoEnabled = true;
 
                                 // Check for Cmd+C (macOS) or Ctrl+C (Windows/Linux)
@@ -89,13 +91,16 @@ Column  {
                                     return;
                                 }
 
-
-                                switch (event.key) {
+                                if (Constants.mytype.connStatus !== MyType.ConnStatus.CONNECTED){
+                                    event.accepted = true;
+                                    return;
+                                }
+                                switch (event.key) {                                    
                                     case Qt.Key_Backspace:
                                     case Qt.Key_Left:
                                     case Qt.Key_Right:
                                     case Qt.Key_Up:
-                                    case Qt.Key_Down:
+                                    case Qt.Key_Down:                                    
                                     event.accepted = true;
                                     break;
                                     default:
