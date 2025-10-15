@@ -12,11 +12,22 @@ Column  {
 
     Connections {
         target: Constants.mytype
+        property int adjusting: 0;
         function onAddTextToConsole(s) {
             if (s.startsWith("CHANGED: 14 ")){
                 let v = s.split(" ")[2] / 4;
-                sliderId.value = parseInt( v)
-                sliderId.moved()
+                let i = parseInt( v);
+                if (Math.abs(i - sliderId.value)<40 && adjusting == 0) {
+                    sliderId.value = parseInt( v)
+                    sliderId.moved()
+                } else {
+                    let v = i - sliderId.value;
+                    if ( adjusting <0 && v > 0 || adjusting>0 && v < 0 ) {
+                        adjusting = 0;
+                    } else {
+                        adjusting = v;
+                    }
+                }
             }
         }
     }
