@@ -5,7 +5,7 @@ import Design
 import Core
 import Bal
 import QtCharts
-
+import QtQuick.Dialogs
 
 
 Column  {
@@ -18,11 +18,8 @@ Column  {
         }
     }
     ColumnLayout {
-        CoreLabel {
-            text: "Write whatever you want"
-        }
         CoreButton {
-            text: "Example"
+            text: "Start"
             Timer {
                 id: delayTimer
                 interval: 2000  // 2 seconds
@@ -30,7 +27,9 @@ Column  {
                 onTriggered: {
                     // 2 seconds have passed
                     if (Constants.mytype.connStatus === MyType.ConnStatus.CONNECTED) {
-                        Constants.mytype.writeKeys("\n")
+                        Constants.mytype.writeKeys("pinMode 9 OUTPUT\n")
+                        Constants.mytype.writeKeys("pinMode 10 OUTPUT\n")
+                        Constants.mytype.writeKeys("pinMode 11 OUTPUT\n")
                     }
 
                 }
@@ -48,52 +47,31 @@ Column  {
             id: myDummyTextField
             text: "example response you may parse\nPaint a graph or whatever"
         }
-        ColumnLayout {
-            ChartView {
-                width: 400
-                height: 300
-                theme: ChartView.ChartThemeBrownSand
-                antialiasing: true
+     }
 
-                ValueAxis {
-                    id: axisX
-                    min: 0
-                    max: 100
-                    titleText: "Time (s)"
-                }
+    ColorDialog {
+        id: colorDialog
+        selectedColor:  "black"
+        onAccepted: {
+            let r = parseInt(selectedColor.r * 255)
+            let g = parseInt(selectedColor.g * 255)
+            let b = parseInt(selectedColor.b * 255)
+            Constants.mytype.writeKeys("analogWrite 9 " + g + "\n")
+            Constants.mytype.writeKeys("analogWrite 10 " + r + "\n")
+            Constants.mytype.writeKeys("analogWrite 11 " + b + "\n")
 
-                ValueAxis {
-                    id: axisY
-                    min: 0
-                    max: 100
-                    titleText: "Temperature (°C)"
-                }
-
-                LineSeries {
-                    id: tempSeries
-                    name: "Temperature"
-                    axisX: axisX
-                    axisY: axisY
-                }
-            }
-
-            Timer {
-                id: updateTimer
-                interval: 1000 // 1 second
-                running: true
-                repeat: true
-                onTriggered: {
-                    // Simulate incoming temperature from Arduino
-                    var temp = Math.random() * 40 + 10 // Replace with actual serial input
-                    tempSeries.append(axisX.max, temp)
-                    axisX.max += 1
-                    if (temp > axisY.max) axisY.max = temp + 5
-                }
-            }
+            console.log("r:", r, "g:", g, "b:", b)
         }
     }
+    CoreButton {
+        onClicked: colorDialog.open()
+        text: "Pick color"
+    }
 
-
-
+    Rectangle {
+        id: displayedColorId
+        color: colorDialog.selectedColor
+        width: 40; height: 40
+    }
 }
 
