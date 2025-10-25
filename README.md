@@ -6,7 +6,7 @@ visualize data, and interact with their microcontrollers.
 
 ## Arduino serial example
 
-[./ArdionoShellWe/ShellWe/Shellwe.uno](./ArdionoShellWe/ShellWe/Shellwe.uno)
+[./ArdionoShellWe/ShellWe/Shellwe.uno](https://github.com/shemeshg/LetsGetSerial/blob/main/ArduinoShellWe/ShellWe/ShellWe.ino)
 
 ```text
 Available commands:
