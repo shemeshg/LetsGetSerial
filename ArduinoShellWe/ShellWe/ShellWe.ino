@@ -25,9 +25,7 @@ private:
   String cmdUsage;
 };
 
-const int MAX_ShellWeItmItf = 20;
-ShellWeItmItf *shellWeItmItfArray[MAX_ShellWeItmItf];
-int shellWeItmItfCount = 0;
+
 
 class HelpCmd : public ShellWeItmItf
 {
@@ -52,7 +50,26 @@ public:
   ~HelpCmd() override {}
 };
 
- 
+const int MAX_ShellWeItmItf = 20;
+class ShellWe {
+  public:
+
+  void append(ShellWeItmItf *itm){
+    shellWeItmItfArray[shellWeItmItfCount++] = itm;
+  }
+
+  void printHelp(){
+    Serial.println("***** For My Debug ***********");
+   for (int i = 0; i < shellWeItmItfCount; i++){
+      Serial.println("Cmd: " + shellWeItmItfArray[i]->getCmdIdentifier() + " - " + shellWeItmItfArray[i]->getCmdUsage());
+   }
+  }
+  private:
+  
+  ShellWeItmItf *shellWeItmItfArray[MAX_ShellWeItmItf];
+  int shellWeItmItfCount = 0;
+};
+ShellWe shellWe{};
 
 class PinStatus
 {
@@ -302,11 +319,8 @@ void setup()
     // Wait for Serial to initialize
   }
   printHelp();
-  shellWeItmItfArray[shellWeItmItfCount++] = new HelpCmd{};
-   Serial.println("***** For My Debug ***********");
-   for (int i = 0; i < shellWeItmItfCount; i++){
-      Serial.println("Cmd: " + shellWeItmItfArray[i]->getCmdIdentifier() + " - " + shellWeItmItfArray[i]->getCmdUsage());
-   }
+  shellWe.append(new HelpCmd{}) ;
+  shellWe.printHelp();
 
 }
 
