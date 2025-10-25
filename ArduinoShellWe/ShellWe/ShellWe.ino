@@ -1,4 +1,6 @@
 // ShellWe v0.0.251024
+int getIntPart(String input, int index);
+String getStrPart(String input, int index);
 
 class ShellWeItmItf
 {
@@ -49,6 +51,8 @@ public:
   ~HelpCmd() override {}
 };
 
+
+
 const int MAX_ShellWeItmItf = 20;
 class ShellWe
 {
@@ -84,44 +88,6 @@ public:
 private:
   ShellWeItmItf *shellWeItmItfArray[MAX_ShellWeItmItf];
   int shellWeItmItfCount = 0;
-
-  String getStrPart(String input, int index)
-  {
-    input.trim(); // Remove leading/trailing whitespace
-    int count = 0;
-    int start = 0;
-
-    // Split by space and ignore empty parts
-    for (int i = 0; i < input.length(); i++)
-    {
-      if (input.charAt(i) == ' ')
-      {
-        if (start < i)
-        { // Non-empty segment
-          if (count == index)
-          {
-            return input.substring(start, i);
-          }
-          count++;
-        }
-        start = i + 1;
-      }
-    }
-
-    // Last word
-    if (start < input.length() && count == index)
-    {
-      return input.substring(start);
-    }
-
-    return "";
-  }
-
-  int getIntPart(String input, int index)
-  {
-    String part = getStrPart(input, index);
-    return part.toInt();
-  }
 };
 ShellWe shellWe{};
 
@@ -334,21 +300,6 @@ void setHeartbeat(String inputLine)
   heartbeatInterval = getIntPart(inputLine, 2);
 }
 
-void printHelp()
-{
-  Serial.write("Available commands:\n");
-  Serial.write("? - help\n");
-  Serial.write("STATUS\n");
-  Serial.write("ECHO <int bool>\n");
-  Serial.write("pinMode int <OUTPUT|INPUT|INPUT_PULLUP>\n");
-  Serial.write("digitalWrite int <HIGH|LOW>\n");
-  Serial.write("analogWrite int <int 1..255>\n");
-  Serial.write("digitalRead int \n");
-  Serial.write("analogRead int \n");
-  Serial.write("followMode int int int - <pin> <0/1 to follow input> <followAnalogTolerance>  <int millis interval 0=false>\n");
-  Serial.write("heartbeat <int heartbeatIntervalCounter start 0=false> <int millis interval>\n");
-}
-
 void heartBeat()
 {
   if (heartbeatIntervalCounter == 0)
@@ -364,6 +315,22 @@ void heartBeat()
   }
 }
 
+class StatusCmd : public ShellWeItmItf
+{
+public:
+  StatusCmd() : ShellWeItmItf("STATUS", "Displays PIN status") {}
+
+  void cmdAction(String line) override
+  {
+    for (int i = 0; i < pinCount; i++)
+    {
+      Serial.println(pinArray[i]->getStatusString());
+    }
+  }
+
+  ~StatusCmd() override {}
+};
+
 void setup()
 {
 
@@ -372,19 +339,13 @@ void setup()
   {
     // Wait for Serial to initialize
   }
-  printHelp();
+
   shellWe.append(new HelpCmd{});
+  shellWe.append(new StatusCmd{});
   shellWe.printHelp();
 }
 
-void printLedStatus()
-{
 
-  for (int i = 0; i < pinCount; i++)
-  {
-    Serial.println(pinArray[i]->getStatusString());
-  }
-}
 
 String inputLine = "";
 
@@ -406,10 +367,6 @@ void cliInterperter()
       if (shellWe.runCmds(inputLine))
       {
         // yes we found cmd and run it
-      }
-      else if (inputLineCmdIdentifier == "STATUS")
-      {
-        printLedStatus();
       }
       else if (inputLineCmdIdentifier == "pinMode")
       {
