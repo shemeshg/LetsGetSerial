@@ -51,8 +51,6 @@ public:
   ~HelpCmd() override {}
 };
 
-
-
 const int MAX_ShellWeItmItf = 20;
 class ShellWe
 {
@@ -218,24 +216,6 @@ int getIntPart(String input, int index)
   return part.toInt();
 }
 
-void setPinMode(String inputLine)
-{
-  int mode = OUTPUT;
-  int pin = getIntPart(inputLine, 1);
-  String strMode = getStrPart(inputLine, 2);
-
-  if (strMode == "INPUT")
-  {
-    mode = INPUT;
-  }
-  else if (strMode == "INPUT_PULLUP")
-  {
-    mode = INPUT_PULLUP;
-  }
-  pinMode(pin, mode);
-  updatePinStatus(pin, strMode, "", 0);
-}
-
 void setDigitalWrite(String inputLine)
 {
   int mode = HIGH;
@@ -315,6 +295,30 @@ void heartBeat()
   }
 }
 
+class PinModeCmd : public ShellWeItmItf
+{
+  public:
+  ~PinModeCmd() override {}
+  PinModeCmd() : ShellWeItmItf("pinMode", "pinMode int <OUTPUT|INPUT|INPUT_PULLUP>") {}
+  void cmdAction(String inputLine) override
+  {
+    int mode = OUTPUT;
+    int pin = getIntPart(inputLine, 1);
+    String strMode = getStrPart(inputLine, 2);
+
+    if (strMode == "INPUT")
+    {
+      mode = INPUT;
+    }
+    else if (strMode == "INPUT_PULLUP")
+    {
+      mode = INPUT_PULLUP;
+    }
+    pinMode(pin, mode);
+    updatePinStatus(pin, strMode, "", 0);
+  }
+};
+
 class StatusCmd : public ShellWeItmItf
 {
 public:
@@ -342,10 +346,9 @@ void setup()
 
   shellWe.append(new HelpCmd{});
   shellWe.append(new StatusCmd{});
+  shellWe.append(new PinModeCmd{});
   shellWe.printHelp();
 }
-
-
 
 String inputLine = "";
 
@@ -367,10 +370,6 @@ void cliInterperter()
       if (shellWe.runCmds(inputLine))
       {
         // yes we found cmd and run it
-      }
-      else if (inputLineCmdIdentifier == "pinMode")
-      {
-        setPinMode(inputLine);
       }
       else if (inputLineCmdIdentifier == "digitalWrite")
       {
