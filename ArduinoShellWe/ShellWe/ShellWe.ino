@@ -1,93 +1,4 @@
-// ShellWe v0.0.251024
-int getIntPart(String input, int index);
-String getStrPart(String input, int index);
-
-class ShellWeItmItf
-{
-public:
-  ShellWeItmItf(String cmdIdentifier, String cmdUsage) : cmdIdentifier{cmdIdentifier}, cmdUsage{cmdUsage}
-  {
-  }
-
-  const String getCmdIdentifier() const
-  {
-    return cmdIdentifier;
-  }
-
-  const String getCmdUsage() const
-  {
-    return cmdUsage;
-  }
-
-  virtual void cmdAction(String line) = 0;
-
-  virtual ~ShellWeItmItf() {};
-
-private:
-  String cmdIdentifier;
-  String cmdUsage;
-};
-
-class HelpCmd : public ShellWeItmItf
-{
-public:
-  HelpCmd() : ShellWeItmItf("?", "Displays available commands") {}
-
-  void cmdAction(String line) override
-  {
-    Serial.write("Available commands:\n");
-    Serial.write("? - help\n");
-    Serial.write("STATUS\n");
-    Serial.write("ECHO <int bool>\n");
-    Serial.write("pinMode int <OUTPUT|INPUT|INPUT_PULLUP>\n");
-    Serial.write("digitalWrite int <HIGH|LOW>\n");
-    Serial.write("analogWrite int <int 1..255>\n");
-    Serial.write("digitalRead int \n");
-    Serial.write("analogRead int \n");
-    Serial.write("followMode int int int - <pin> <0/1 to follow input> <followAnalogTolerance>  <int millis interval 0=false>\n");
-    Serial.write("heartbeat <int heartbeatIntervalCounter start 0=false> <int millis interval>\n");
-  }
-
-  ~HelpCmd() override {}
-};
-
-const int MAX_ShellWeItmItf = 20;
-class ShellWe
-{
-public:
-  void append(ShellWeItmItf *itm)
-  {
-    shellWeItmItfArray[shellWeItmItfCount++] = itm;
-  }
-
-  bool runCmds(String inputLine)
-  {
-    String inputLineCmdIdentifier = getStrPart(inputLine, 0);
-    for (int i = 0; i < shellWeItmItfCount; i++)
-    {
-      if (shellWeItmItfArray[i]->getCmdIdentifier() == inputLineCmdIdentifier)
-      {
-        shellWeItmItfArray[i]->cmdAction(inputLine);
-        return true;
-      }
-    }
-    return false;
-  }
-
-  void printHelp()
-  {
-    Serial.println("***** For My Debug ***********");
-    for (int i = 0; i < shellWeItmItfCount; i++)
-    {
-      Serial.println("Cmd: " + shellWeItmItfArray[i]->getCmdIdentifier() + " - " + shellWeItmItfArray[i]->getCmdUsage());
-    }
-  }
-
-private:
-  ShellWeItmItf *shellWeItmItfArray[MAX_ShellWeItmItf];
-  int shellWeItmItfCount = 0;
-};
-ShellWe shellWe{};
+// v0.0.1510
 
 class PinStatus
 {
@@ -216,6 +127,24 @@ int getIntPart(String input, int index)
   return part.toInt();
 }
 
+void setPinMode(String inputLine)
+{
+  int mode = OUTPUT;
+  int pin = getIntPart(inputLine, 1);
+  String strMode = getStrPart(inputLine, 2);
+
+  if (strMode == "INPUT")
+  {
+    mode = INPUT;
+  }
+  else if (strMode == "INPUT_PULLUP")
+  {
+    mode = INPUT_PULLUP;
+  }
+  pinMode(pin, mode);
+  updatePinStatus(pin, strMode, "", 0);
+}
+
 void setDigitalWrite(String inputLine)
 {
   int mode = HIGH;
@@ -280,6 +209,21 @@ void setHeartbeat(String inputLine)
   heartbeatInterval = getIntPart(inputLine, 2);
 }
 
+void printHelp()
+{
+  Serial.write("Available commands:\n");
+  Serial.write("? - help\n");
+  Serial.write("STATUS\n");
+  Serial.write("ECHO <int bool>\n");
+  Serial.write("pinMode int <OUTPUT|INPUT|INPUT_PULLUP>\n");
+  Serial.write("digitalWrite int <HIGH|LOW>\n");
+  Serial.write("analogWrite int <int 1..255>\n");
+  Serial.write("digitalRead int \n");
+  Serial.write("analogRead int \n");
+  Serial.write("followMode int int int - <pin> <0/1 to follow input> <followAnalogTolerance>  <int millis interval 0=false>\n");
+  Serial.write("heartbeat <int heartbeatIntervalCounter start 0=false> <int millis interval>\n");
+}
+
 void heartBeat()
 {
   if (heartbeatIntervalCounter == 0)
@@ -295,46 +239,6 @@ void heartBeat()
   }
 }
 
-class PinModeCmd : public ShellWeItmItf
-{
-  public:
-  ~PinModeCmd() override {}
-  PinModeCmd() : ShellWeItmItf("pinMode", "pinMode int <OUTPUT|INPUT|INPUT_PULLUP>") {}
-  void cmdAction(String inputLine) override
-  {
-    int mode = OUTPUT;
-    int pin = getIntPart(inputLine, 1);
-    String strMode = getStrPart(inputLine, 2);
-
-    if (strMode == "INPUT")
-    {
-      mode = INPUT;
-    }
-    else if (strMode == "INPUT_PULLUP")
-    {
-      mode = INPUT_PULLUP;
-    }
-    pinMode(pin, mode);
-    updatePinStatus(pin, strMode, "", 0);
-  }
-};
-
-class StatusCmd : public ShellWeItmItf
-{
-public:
-  StatusCmd() : ShellWeItmItf("STATUS", "Displays PIN status") {}
-
-  void cmdAction(String line) override
-  {
-    for (int i = 0; i < pinCount; i++)
-    {
-      Serial.println(pinArray[i]->getStatusString());
-    }
-  }
-
-  ~StatusCmd() override {}
-};
-
 void setup()
 {
 
@@ -343,11 +247,16 @@ void setup()
   {
     // Wait for Serial to initialize
   }
+  printHelp();
+}
 
-  shellWe.append(new HelpCmd{});
-  shellWe.append(new StatusCmd{});
-  shellWe.append(new PinModeCmd{});
-  shellWe.printHelp();
+void printLedStatus()
+{
+
+  for (int i = 0; i < pinCount; i++)
+  {
+    Serial.println(pinArray[i]->getStatusString());
+  }
 }
 
 String inputLine = "";
@@ -364,38 +273,44 @@ void cliInterperter()
       {
         Serial.write(c);
       }
-
-      String inputLineCmdIdentifier = getStrPart(inputLine, 0);
-
-      if (shellWe.runCmds(inputLine))
+      // Line complete, process it
+      if (inputLine == "?")
       {
-        // yes we found cmd and run it
+        printHelp();
       }
-      else if (inputLineCmdIdentifier == "digitalWrite")
+      else if (inputLine == "STATUS")
+      {
+        printLedStatus();
+      }
+      else if (inputLine.startsWith("pinMode"))
+      {
+        setPinMode(inputLine);
+      }
+      else if (inputLine.startsWith("digitalWrite"))
       {
         setDigitalWrite(inputLine);
       }
-      else if (inputLineCmdIdentifier == "analogWrite")
+      else if (inputLine.startsWith("analogWrite"))
       {
         setAnalogWrite(inputLine);
       }
-      else if (inputLineCmdIdentifier == "digitalRead")
+      else if (inputLine.startsWith("digitalRead"))
       {
         setDigitalRead(inputLine);
       }
-      else if (inputLineCmdIdentifier == "analogRead")
+      else if (inputLine.startsWith("analogRead"))
       {
         setAnalogRead(inputLine);
       }
-      else if (inputLineCmdIdentifier == "followMode")
+      else if (inputLine.startsWith("followMode"))
       {
         setFollowMode(inputLine);
       }
-      else if (inputLineCmdIdentifier == "ECHO")
+      else if (inputLine.startsWith("ECHO"))
       {
         setEcho(inputLine);
       }
-      else if (inputLineCmdIdentifier == "heartbeat")
+      else if (inputLine.startsWith("heartbeat"))
       {
         setHeartbeat(inputLine);
       }
