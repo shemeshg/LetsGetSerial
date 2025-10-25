@@ -1,4 +1,5 @@
 // ShellWe v0.0.251024
+
 class ShellWeItmItf
 {
 public:
@@ -25,8 +26,6 @@ private:
   String cmdUsage;
 };
 
-
-
 class HelpCmd : public ShellWeItmItf
 {
 public:
@@ -51,23 +50,78 @@ public:
 };
 
 const int MAX_ShellWeItmItf = 20;
-class ShellWe {
-  public:
-
-  void append(ShellWeItmItf *itm){
+class ShellWe
+{
+public:
+  void append(ShellWeItmItf *itm)
+  {
     shellWeItmItfArray[shellWeItmItfCount++] = itm;
   }
 
-  void printHelp(){
-    Serial.println("***** For My Debug ***********");
-   for (int i = 0; i < shellWeItmItfCount; i++){
-      Serial.println("Cmd: " + shellWeItmItfArray[i]->getCmdIdentifier() + " - " + shellWeItmItfArray[i]->getCmdUsage());
-   }
+  bool runCmds(String inputLine)
+  {
+    String inputLineCmdIdentifier = getStrPart(inputLine, 0);
+    for (int i = 0; i < shellWeItmItfCount; i++)
+    {
+      if (shellWeItmItfArray[i]->getCmdIdentifier() == inputLineCmdIdentifier)
+      {
+        shellWeItmItfArray[i]->cmdAction(inputLine);
+        return true;
+      }
+    }
+    return false;
   }
-  private:
-  
+
+  void printHelp()
+  {
+    Serial.println("***** For My Debug ***********");
+    for (int i = 0; i < shellWeItmItfCount; i++)
+    {
+      Serial.println("Cmd: " + shellWeItmItfArray[i]->getCmdIdentifier() + " - " + shellWeItmItfArray[i]->getCmdUsage());
+    }
+  }
+
+private:
   ShellWeItmItf *shellWeItmItfArray[MAX_ShellWeItmItf];
   int shellWeItmItfCount = 0;
+
+  String getStrPart(String input, int index)
+  {
+    input.trim(); // Remove leading/trailing whitespace
+    int count = 0;
+    int start = 0;
+
+    // Split by space and ignore empty parts
+    for (int i = 0; i < input.length(); i++)
+    {
+      if (input.charAt(i) == ' ')
+      {
+        if (start < i)
+        { // Non-empty segment
+          if (count == index)
+          {
+            return input.substring(start, i);
+          }
+          count++;
+        }
+        start = i + 1;
+      }
+    }
+
+    // Last word
+    if (start < input.length() && count == index)
+    {
+      return input.substring(start);
+    }
+
+    return "";
+  }
+
+  int getIntPart(String input, int index)
+  {
+    String part = getStrPart(input, index);
+    return part.toInt();
+  }
 };
 ShellWe shellWe{};
 
@@ -319,9 +373,8 @@ void setup()
     // Wait for Serial to initialize
   }
   printHelp();
-  shellWe.append(new HelpCmd{}) ;
+  shellWe.append(new HelpCmd{});
   shellWe.printHelp();
-
 }
 
 void printLedStatus()
@@ -347,12 +400,12 @@ void cliInterperter()
       {
         Serial.write(c);
       }
-      
+
       String inputLineCmdIdentifier = getStrPart(inputLine, 0);
 
-      if (inputLineCmdIdentifier == "?")
+      if (shellWe.runCmds(inputLine))
       {
-        printHelp();
+        // yes we found cmd and run it
       }
       else if (inputLineCmdIdentifier == "STATUS")
       {
@@ -362,7 +415,7 @@ void cliInterperter()
       {
         setPinMode(inputLine);
       }
-      else if (inputLineCmdIdentifier ==  "digitalWrite")
+      else if (inputLineCmdIdentifier == "digitalWrite")
       {
         setDigitalWrite(inputLine);
       }
@@ -374,7 +427,7 @@ void cliInterperter()
       {
         setDigitalRead(inputLine);
       }
-      else if (inputLineCmdIdentifier ==  "analogRead")
+      else if (inputLineCmdIdentifier == "analogRead")
       {
         setAnalogRead(inputLine);
       }
@@ -382,7 +435,7 @@ void cliInterperter()
       {
         setFollowMode(inputLine);
       }
-      else if (inputLineCmdIdentifier ==  "ECHO")
+      else if (inputLineCmdIdentifier == "ECHO")
       {
         setEcho(inputLine);
       }
